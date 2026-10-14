@@ -1,0 +1,20 @@
+# Raw and record-level data: World Bank terms forbid redistribution
+data_raw/
+data/
+*.zip
+*.dta
+*.parquet
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+*.egg-info/
+build/
+
+# Editors and OS
+.vscode/
+.DS_Store
+Thumbs.db

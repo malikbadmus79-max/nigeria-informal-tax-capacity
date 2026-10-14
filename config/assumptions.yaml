@@ -1,0 +1,25 @@
+# Every analytical assumption lives here, so sensitivity runs change this file, not the code.
+# Each entry records its source or is labelled as an assumption.
+
+data:
+  zip_path: data_raw/NGA_2023_GHSP-W5_v02_M_CSV.zip   # World Bank Microdata Library, catalog 6410
+
+tax_rules:
+  pit_exemption_naira: 800000        # Nigeria Tax Act 2025; annual income at or below this is exempt (Guardian explainer, 2025)
+  pit_effective_date: 2026-01-01
+
+annualisation:
+  window_first_month_flag: 4         # s8q9__4 = April 2023
+  window_last_month_flag: 15         # s8q9__15 = March 2024 (12-month window ending at fieldwork close)
+
+price_adjustment:
+  method: none                       # placeholder until CPI series is sourced; options: none, cpi_ratio
+  cpi_ratio: null                    # 2026 price level divided by survey-period price level; to be sourced (CPI rebased Jan 2025)
+
+income_allocation:
+  rule: enterprise                   # enterprise | owner_sum ; owner_sum adds all enterprise profit per owner
+
+survey_design:
+  weight: wt_wave5
+  cluster: ea
+  strata: strata
