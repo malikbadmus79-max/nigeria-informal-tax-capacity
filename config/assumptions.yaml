@@ -245,3 +245,14 @@ model:
       max_leaf_nodes: [15, 31]
       min_samples_leaf: [20, 50]
       l2_regularization: [0, 1]
+
+evaluation:                          # final test evaluation (plan section 13), run once by taxcap.evaluate
+  confidence_level: 0.95
+  bootstrap_replicates: 1000         # assumption; test PSUs resampled with replacement within zone
+  bootstrap_seed: 20261015           # assumption
+  permutation_repeats: 20            # assumption; permutation importance on the test set
+  permutation_seed: 20261015         # assumption
+  calibration_bins: 10               # deciles of predicted probability (equal counts of test enterprises)
+  importance_groups:                 # features permuted together as one group
+    durable_assets: [asset_*, asset_types_owned]
+    housing: [wall_material, roof_material, floor_material]

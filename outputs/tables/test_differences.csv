@@ -1,0 +1,3 @@
+comparison,estimate,ci_low,ci_high,se,replicates
+recall at false-flag-rate operating point: logistic_regression set A minus rule_registered,0.08079498384072126,0.003139383337366423,0.14469782582911772,0.03642910271803529,1000
+PR-AUC: logistic_regression set B minus set A,0.01910403406420791,0.0006184800689692065,0.04227132762975557,0.010757607300944591,1000
