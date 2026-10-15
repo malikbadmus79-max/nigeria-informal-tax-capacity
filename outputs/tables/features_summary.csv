@@ -1,0 +1,61 @@
+feature,feature_set,source_file,source_variables,type,categories_in_training_set,share_missing_training_set
+sector_group,A and B,sect8b_harvestw5,s8q2b,categorical,9.0,0.0
+premises,A and B,sect8b_harvestw5,s8q10,categorical,9.0,0.0
+registered,A and B,sect8b_harvestw5,s8q11,binary,,0.0
+non_household_employees,A and B,sect8b_harvestw5,s8q13a + s8q13b,count,,0.0
+years_in_operation,A and B,sect8b_harvestw5,s8q4b,numeric,,0.0
+zone,A and B,secta_harvestw5,zone,categorical,6.0,0.0
+state,A and B,secta_harvestw5,state,categorical,37.0,0.0
+urban,A and B,secta_harvestw5,sector,binary,,0.0
+any_member_mobile_phone,A and B,sect5b_plantingw5,s5bq8,binary,,0.0
+any_member_internet,A and B,sect5b_plantingw5,s5bq14,binary,,0.0
+household_internet_connection,A and B,sect9_harvestw5,s9q48,binary,,0.0
+any_member_account,A and B,sect5a1_plantingw5,s5aq2,binary,,0.0
+any_member_formal_savings,A and B,sect5a1_plantingw5,s5aq6,binary,,0.0
+wall_material,A and B,sect9_harvestw5,s9q9,categorical,5.0,0.0
+roof_material,A and B,sect9_harvestw5,s9q10,categorical,8.0,0.0
+floor_material,A and B,sect9_harvestw5,s9q11,categorical,5.0,0.0
+asset_301,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_302,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_303,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_304,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_305,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_306,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_307,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_308,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_309,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_310,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_311,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_312,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_313,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_314,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_315,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_316,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_317,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_318,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_319,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_320,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_321,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_322,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_323,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_324,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_325,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_326,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_327,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_329,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_331,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_333,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_3021,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_3061,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_3281,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_3282,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_3283,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_3301,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_3302,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_3321,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_3322,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_3323,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_3324,A and B,sect10_plantingw5,item_cd + s10q1a,binary,,0.0
+asset_types_owned,A and B,sect10_plantingw5,item_cd + s10q1a,count,,0.0
+household_size,A and B,sect1_harvestw5,s1q4 + NEWMEMBER,count,,0.0
+local_authority_payments,B only,sect8b_harvestw5,s8q11b,binary,,0.0

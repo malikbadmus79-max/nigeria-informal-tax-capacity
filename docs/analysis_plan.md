@@ -273,6 +273,10 @@ Features are limited to characteristics a tax authority could observe. The full 
 
 Phone, internet, account, savings and durable asset features come from the post-planting visit (July to September 2023). This visit falls inside the income window. The other features come from the post-harvest visit.
 
+Rare-category mapping for premises and housing materials is fitted on training rows only (`features.rare_category`). A code held by fewer than 1% of non-missing training rows, or not seen in training, maps to 96 (other), and the same mapping is applied to test rows.
+
+A household with no row in a household-level source file gets missing values, not 0 or "no".
+
 A second feature set adds `s8q11b`, payments to government or non-government local authorities to allow operation. Both feature sets are reported, so the added predictive value of these payment records can be read directly.
 
 ### 10.3 Excluded features
@@ -291,7 +295,11 @@ Owner gender (`s1q2`) and owner age (`s1q6`) are never model features either. Th
 
 Before any model is fitted, 20% of PSUs are held out as the final test set (`model.holdout_share`). The draw is stratified by zone and uses the fixed seed 20261015 (`model.split_seed`). The test set is used once, for the final evaluation, and never for tuning or model selection.
 
-Tuning uses 5-fold (`model.cv_folds`) `GroupKFold` with the composite PSU as the group, on the remaining 80% of PSUs. All enterprises in a PSU fall in the same fold, so no enumeration area contributes to both training and evaluation.
+Tuning uses 5-fold (`model.cv_folds`) `StratifiedGroupKFold` on the remaining 80% of PSUs. The composite PSU is the group, and folds are stratified on the CPI-adjusted target of training rows. Folds are shuffled with `random_state` equal to `model.split_seed`.
+
+All enterprises in a PSU fall in the same fold, so no enumeration area contributes to both training and evaluation. Test-row targets are never read in forming the folds.
+
+No PSU code or row assignment is saved. `outputs/tables/split_summary.csv` records the counts, the weighted training-set and per-fold target shares, and a SHA-256 hash of the sorted test PSU list.
 
 ## 12. Models
 
@@ -352,5 +360,7 @@ The changes below were made before any income estimate or model result existed. 
 | 2026-10-15 | Reliability rule added: a domain estimate is flagged "unreliable" if it rests on fewer than 50 enterprises or fewer than 10 PSUs, or its relative standard error exceeds 30%. Flagged estimates are reported, not dropped. Confidence intervals use the t distribution with degrees of freedom equal to design PSUs minus strata. | Set before any estimate was computed (section 7). |
 | 2026-10-15 | Proportion confidence intervals changed from symmetric t intervals to logit-transformed intervals; not estimable when p is 0 or 1 (section 7.2). | Changed after the first estimates, because symmetric intervals gave negative lower bounds for small domains. Point estimates and standard errors are unaffected. |
 | 2026-10-15 | State estimates labelled "indicative" in a new column, whatever the reliability flag (section 7.4). | Changed after the first estimates. The survey is designed to be representative nationally and by zone, not by state (T05). Point estimates, standard errors and reliability flags are unaffected. |
+| 2026-10-15 | Rare-category frequencies computed on training rows only; codes unseen in training map to 96 (other) (section 10.2). Previously computed on the whole analysis sample. | Pre-modelling change, before any model fit. Keeps test-row information out of feature construction. |
+| 2026-10-15 | Cross-validation folds changed from unshuffled `GroupKFold` to `StratifiedGroupKFold` (shuffled, `random_state` = `model.split_seed`), grouped by PSU and stratified on the CPI-adjusted target of training rows (section 11). The test draw is unchanged. | Pre-modelling change, before any model fit. Balances the target share across folds, and makes fold assignment depend on the seed. |
 
 No deviations after test results have been recorded.

@@ -105,6 +105,35 @@ def design_frames():
                 "s8q11": "1. YES" if j % 5 == 0 else "2. NO", "s8q11b": "1. YES" if j % 2 == 0 else "2. NO",
                 "s8q6_1": 1, "s8q6_2": 2.0 if j % 4 == 0 else nan,
                 "s8q29": 200000, "s8q30": 20000 + 9000 * (j % 10), **_month_flags(months),
+                "s8q13a": "0. NONE" if j % 3 else "2", "s8q13b": "1" if j % 4 == 1 else "0. NONE",
+                "s8q4b": "0. IN THE LAST 12 MONTHS" if j % 6 == 0 else str(j % 9 + 1),
             })
             j += 1
     return pd.DataFrame(ent_rows), pd.DataFrame(hh_rows)
+
+
+@pytest.fixture
+def household_frames(design_frames):
+    """Synthetic household files for the design_frames households (feature tests)."""
+    nan = float("nan")
+    hhids = design_frames[1]["hhid"].tolist()
+    b5, a5, h9, d10, r1 = [], [], [], [], []
+    for h in hhids:
+        no_answers = h == hhids[-1]   # one household where no member answered sect5b
+        for m in range(1, 4):
+            b5.append({"hhid": h, "indiv": m,
+                       "s5bq8": nan if no_answers else ("1. YES" if (h + m) % 3 == 0 else "2. NO"),
+                       "s5bq14": nan if no_answers else ("1. YES" if (h + m) % 5 == 0 else "2. NO")})
+            a5.append({"hhid": h, "indiv": m, "s5aq2": "1. YES" if (h * m) % 4 == 0 else "2. NO",
+                       "s5aq6": "2. NO"})
+            r1.append({"hhid": h, "indiv": m, "s1q4": "2. NO" if m == 3 and h % 2 else "1. YES", "NEWMEMBER": 0})
+        h9.append({"hhid": h, "s9q48": "1. YES" if h % 4 == 0 else "2. NO",
+                   "s9q9": "5. CEMENT OR CONCRETE" if h % 3 else "1. MUD",
+                   "s9q10": "11. ZINC SHEET" if h != hhids[0] else "9. STEP TILES",
+                   "s9q11": "3. SMOOTH CEMENT/CONCRETE"})
+        for item in ["301. Furniture (sofa set)", "312. Fridge", "3341. Other (Specify)"]:
+            d10.append({"hhid": h, "item_cd": item, "s10q1a": "1. YES" if (h + len(item)) % 2 else "2. NO",
+                        "s10q6": 50000})
+    return {"sect5b_plantingw5": pd.DataFrame(b5), "sect5a1_plantingw5": pd.DataFrame(a5),
+            "sect9_harvestw5": pd.DataFrame(h9), "sect10_plantingw5": pd.DataFrame(d10),
+            "sect1_harvestw5": pd.DataFrame(r1)}

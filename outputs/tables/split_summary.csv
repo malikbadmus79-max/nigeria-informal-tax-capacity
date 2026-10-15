@@ -1,0 +1,52 @@
+zone,set,measure,value
+all,train,enterprises,2624
+all,train,PSUs,520
+all,test,enterprises,665
+all,test,PSUs,129
+1. North Central,train,enterprises,292
+1. North Central,train,PSUs,77
+1. North Central,test,enterprises,89
+1. North Central,test,PSUs,19
+2. North East,train,enterprises,426
+2. North East,train,PSUs,78
+2. North East,test,enterprises,83
+2. North East,test,PSUs,19
+3. North West,train,enterprises,656
+3. North West,train,PSUs,78
+3. North West,test,enterprises,190
+3. North West,test,PSUs,20
+4. South East,train,enterprises,388
+4. South East,train,PSUs,90
+4. South East,test,enterprises,104
+4. South East,test,PSUs,22
+5. South South,train,enterprises,402
+5. South South,train,PSUs,92
+5. South South,test,enterprises,87
+5. South South,test,PSUs,23
+6. South West,train,enterprises,460
+6. South West,train,PSUs,105
+6. South West,test,enterprises,112
+6. South West,test,PSUs,26
+all,train fold 0,enterprises,525
+all,train fold 0,PSUs,102
+all,train fold 1,enterprises,523
+all,train fold 1,PSUs,103
+all,train fold 2,enterprises,522
+all,train fold 2,PSUs,96
+all,train fold 3,enterprises,530
+all,train fold 3,PSUs,108
+all,train fold 4,enterprises,524
+all,train fold 4,PSUs,111
+all,test,SHA-256 of sorted test PSU list,c9f433cacd6078d4404f540954d4618cb395805fed22f85459324bea3a9707d1
+all,train,"weighted share above threshold, CPI-adjusted (primary target)",0.44326755453144634
+all,train,"weighted share above threshold, nominal (secondary)",0.20581033288367773
+all,train fold 0,"weighted share above threshold, CPI-adjusted (primary target)",0.4527551714142988
+all,train fold 0,"weighted share above threshold, nominal (secondary)",0.23695065725913467
+all,train fold 1,"weighted share above threshold, CPI-adjusted (primary target)",0.44587813302742096
+all,train fold 1,"weighted share above threshold, nominal (secondary)",0.22632913878398803
+all,train fold 2,"weighted share above threshold, CPI-adjusted (primary target)",0.4537811306940337
+all,train fold 2,"weighted share above threshold, nominal (secondary)",0.21808648857133278
+all,train fold 3,"weighted share above threshold, CPI-adjusted (primary target)",0.48181120013353285
+all,train fold 3,"weighted share above threshold, nominal (secondary)",0.1858395765603487
+all,train fold 4,"weighted share above threshold, CPI-adjusted (primary target)",0.38585020340936343
+all,train fold 4,"weighted share above threshold, nominal (secondary)",0.16568521077949885

@@ -125,7 +125,7 @@ features:
     premises:
       file: sect8b_harvestw5
       variable: s8q10                # "Where does your household operate this [NFE]?"
-      coding: categorical; leading code, codes held by fewer than 1% of operating enterprises merged into 96 (other)
+      coding: categorical; leading code, codes held by fewer than 1% of training rows merged into 96 (other); see rare_category
     registered:
       file: sect8b_harvestw5
       variable: s8q11                # "Is this [NFE] officially registered with the government?"
@@ -175,15 +175,15 @@ features:
     wall_material:
       file: sect9_harvestw5
       variable: s9q9                 # "MAIN CONSTRUCTION MATERIAL OF THE OUTER WALLS OF THE DWELLING"
-      coding: categorical; leading code, codes held by fewer than 1% of operating enterprises merged into 96 (other)
+      coding: categorical; leading code, codes held by fewer than 1% of training rows merged into 96 (other); see rare_category
     roof_material:
       file: sect9_harvestw5
       variable: s9q10                # "MAIN CONSTRUCTION MATERIAL OF THE ROOFING OF THE DWELLING"
-      coding: categorical; leading code, codes held by fewer than 1% of operating enterprises merged into 96 (other)
+      coding: categorical; leading code, codes held by fewer than 1% of training rows merged into 96 (other); see rare_category
     floor_material:
       file: sect9_harvestw5
       variable: s9q11                # "MAIN CONSTRUCTION MATERIAL OF FLOORING OF THE DWELLING"
-      coding: categorical; leading code, codes held by fewer than 1% of operating enterprises merged into 96 (other)
+      coding: categorical; leading code, codes held by fewer than 1% of training rows merged into 96 (other); see rare_category
     durable_assets:
       file: sect10_plantingw5        # F25; one row per household and item (item_cd)
       variables: [item_cd, s10q1a]   # "Does your household own any [ITEM]?"
@@ -199,9 +199,20 @@ features:
       file: sect8b_harvestw5
       variable: s8q11b               # see wording above
       coding: binary; 1 = YES, 0 = NO
+  # Rare categories: frequencies are computed on training rows only. Codes held by fewer than min_share of
+  # non-missing training rows, and codes not seen in training, map to merge_code (other); the same mapping is
+  # applied to test rows. Missing stays missing. The rule never uses the target.
+  rare_category:
+    min_share: 0.01                  # assumption
+    merge_code: 96
   # Never features: sales (s8q29), profit (s8q30), costs (s8q31a-j), consumption (totcons_final), loan amounts
   # (s8q17, s8q19) and anything derived from them; durable asset values (s10q6); owner gender (sect1 s1q2) and
-  # owner age (sect1 s1q6), which are used only for error-rate breakdowns.
+  # owner age (sect1 s1q6), which are used only for error-rate breakdowns. Checked by taxcap.features.
+  never:
+    variables: [s8q29, s8q30, s8q31a, s8q31b, s8q31c, s8q31d, s8q31e, s8q31f, s8q31g, s8q31h, s8q31i, s8q31j,
+                s8q17, s8q19, s10q6, s1q2, s1q6]
+    files: [totcons_final]
+    name_patterns: [sales, profit, cost, consumption, loan, income, value, gender, sex, age, above]
   breakdown_only:
     owner_gender:
       file: sect1_harvestw5
@@ -215,7 +226,8 @@ features:
 model:
   holdout_share: 0.20                # assumption; share of PSUs held out as the final test set, stratified by zone
   split_seed: 20261015               # assumption; fixed seed for the holdout draw and fold assignment
-  cv_folds: 5                        # assumption; GroupKFold by composite PSU on the remaining PSUs
+  cv_folds: 5                        # assumption; StratifiedGroupKFold by composite PSU on training rows, stratified on
+                                     # the CPI-adjusted target, shuffle=True, random_state=split_seed
   training_weight: none              # models trained unweighted; sensitivity: wt_cross_wave5 as sample_weight
   operating_points:                  # assumption; thresholds chosen on cross-validation folds
     max_false_flag_rate: 0.10
