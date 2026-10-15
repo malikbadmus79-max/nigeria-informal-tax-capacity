@@ -1,0 +1,60 @@
+# Frozen model selection (written by taxcap.model before any test evaluation). Do not edit.
+frozen_on: '2026-10-15'
+note: Selected on out-of-fold predictions for training PSUs only; the test set was
+  not accessed.
+revisions:
+- '2026-10-15: second operating point changed from precision >= 0.50 to recall >=
+  0.50 (highest threshold with weighted out-of-fold recall >= 0.50), after cross-validation
+  and before any test evaluation. At a weighted prevalence of 0.44 the precision rule
+  selected near-total flagging (false-flag rate about 0.77). Hyperparameters and the
+  preferred model are unchanged.'
+target: target_cpi
+selection_metric: weighted out-of-fold PR-AUC
+training: unweighted (plan section 12)
+test_psu_sha256: c9f433cacd6078d4404f540954d4618cb395805fed22f85459324bea3a9707d1
+models:
+  logistic_regression:
+    A:
+      params:
+        C: 0.1
+      weighted_oof_pr_auc: 0.6841928679499821
+      thresholds:
+        false_flag_rate_at_most_0.10: 0.6519963640119248
+        recall_at_least_0.50: 0.5304140468315748
+      artifact: artifacts/logistic_regression_A.joblib
+    B:
+      params:
+        C: 0.1
+      weighted_oof_pr_auc: 0.692032233028789
+      thresholds:
+        false_flag_rate_at_most_0.10: 0.6382901073052487
+        recall_at_least_0.50: 0.5277255206724737
+      artifact: artifacts/logistic_regression_B.joblib
+  hist_gradient_boosting:
+    A:
+      params:
+        l2_regularization: 1
+        learning_rate: 0.05
+        max_leaf_nodes: 15
+        min_samples_leaf: 20
+      weighted_oof_pr_auc: 0.67938772751422
+      thresholds:
+        false_flag_rate_at_most_0.10: 0.6729695931803981
+        recall_at_least_0.50: 0.5773143793733224
+      artifact: artifacts/hist_gradient_boosting_A.joblib
+    B:
+      params:
+        l2_regularization: 0
+        learning_rate: 0.05
+        max_leaf_nodes: 31
+        min_samples_leaf: 50
+      weighted_oof_pr_auc: 0.6935602621956573
+      thresholds:
+        false_flag_rate_at_most_0.10: 0.6814536961595382
+        recall_at_least_0.50: 0.5801114218009507
+      artifact: artifacts/hist_gradient_boosting_B.joblib
+preferred:
+  model: logistic_regression
+  feature_set: A
+  rule: highest weighted out-of-fold PR-AUC on feature set A; logistic regression
+    preferred unless gradient boosting is higher by more than 0.01

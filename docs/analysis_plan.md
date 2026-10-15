@@ -326,10 +326,12 @@ All metrics are survey-weighted and computed on the test set:
 
 ### 13.2 Operating points
 
-Two operating points are reported for each model (`model.operating_points`), with thresholds chosen on the cross-validation folds:
+Two operating points are reported for each model (`model.operating_points`). Thresholds are chosen on pooled out-of-fold predictions for training rows, using weighted rates:
 
-- False-flag rate at or below 10%.
-- Precision at or above 50%.
+- False-flag rate at or below 10%: the threshold with the highest recall whose false-flag rate is at most 0.10.
+- Recall at least 50%: the highest threshold whose recall is at least 0.50, reported with its precision and false-flag rate.
+
+The thresholds are frozen in `config/model_selection.yaml` before test evaluation.
 
 ### 13.3 Error rates by group
 
@@ -362,5 +364,6 @@ The changes below were made before any income estimate or model result existed. 
 | 2026-10-15 | State estimates labelled "indicative" in a new column, whatever the reliability flag (section 7.4). | Changed after the first estimates. The survey is designed to be representative nationally and by zone, not by state (T05). Point estimates, standard errors and reliability flags are unaffected. |
 | 2026-10-15 | Rare-category frequencies computed on training rows only; codes unseen in training map to 96 (other) (section 10.2). Previously computed on the whole analysis sample. | Pre-modelling change, before any model fit. Keeps test-row information out of feature construction. |
 | 2026-10-15 | Cross-validation folds changed from unshuffled `GroupKFold` to `StratifiedGroupKFold` (shuffled, `random_state` = `model.split_seed`), grouped by PSU and stratified on the CPI-adjusted target of training rows (section 11). The test draw is unchanged. | Pre-modelling change, before any model fit. Balances the target share across folds, and makes fold assignment depend on the seed. |
+| 2026-10-15 | Second operating point changed from precision at or above 50% to recall at least 50%: the highest threshold whose weighted out-of-fold recall is at least 0.50 (section 13.2). The false-flag rate operating point is unchanged. Thresholds recomputed; hyperparameters and the preferred model unchanged. | Changed after cross-validation and before test evaluation. At a weighted prevalence of 0.44, the precision rule selected near-total flagging, with a false-flag rate of about 0.77, so it cannot inform policy. |
 
 No deviations after test results have been recorded.

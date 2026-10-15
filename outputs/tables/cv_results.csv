@@ -1,0 +1,41 @@
+model,feature_set,config,params,weighted_oof_pr_auc,selected
+logistic_regression,A,0,"{""C"": 0.01}",0.6705677584442319,False
+logistic_regression,A,1,"{""C"": 0.1}",0.6841928679499821,True
+logistic_regression,A,2,"{""C"": 1}",0.6733410550227483,False
+logistic_regression,A,3,"{""C"": 10}",0.6664172215097605,False
+hist_gradient_boosting,A,0,"{""l2_regularization"": 0, ""learning_rate"": 0.05, ""max_leaf_nodes"": 15, ""min_samples_leaf"": 20}",0.6760522257512275,False
+hist_gradient_boosting,A,1,"{""l2_regularization"": 0, ""learning_rate"": 0.05, ""max_leaf_nodes"": 15, ""min_samples_leaf"": 50}",0.6764834503129463,False
+hist_gradient_boosting,A,2,"{""l2_regularization"": 0, ""learning_rate"": 0.05, ""max_leaf_nodes"": 31, ""min_samples_leaf"": 20}",0.6627621386838188,False
+hist_gradient_boosting,A,3,"{""l2_regularization"": 0, ""learning_rate"": 0.05, ""max_leaf_nodes"": 31, ""min_samples_leaf"": 50}",0.6670368907482438,False
+hist_gradient_boosting,A,4,"{""l2_regularization"": 0, ""learning_rate"": 0.1, ""max_leaf_nodes"": 15, ""min_samples_leaf"": 20}",0.6702895142157136,False
+hist_gradient_boosting,A,5,"{""l2_regularization"": 0, ""learning_rate"": 0.1, ""max_leaf_nodes"": 15, ""min_samples_leaf"": 50}",0.6673494145823748,False
+hist_gradient_boosting,A,6,"{""l2_regularization"": 0, ""learning_rate"": 0.1, ""max_leaf_nodes"": 31, ""min_samples_leaf"": 20}",0.6625749186999992,False
+hist_gradient_boosting,A,7,"{""l2_regularization"": 0, ""learning_rate"": 0.1, ""max_leaf_nodes"": 31, ""min_samples_leaf"": 50}",0.6712768379586647,False
+hist_gradient_boosting,A,8,"{""l2_regularization"": 1, ""learning_rate"": 0.05, ""max_leaf_nodes"": 15, ""min_samples_leaf"": 20}",0.67938772751422,True
+hist_gradient_boosting,A,9,"{""l2_regularization"": 1, ""learning_rate"": 0.05, ""max_leaf_nodes"": 15, ""min_samples_leaf"": 50}",0.6756285957019685,False
+hist_gradient_boosting,A,10,"{""l2_regularization"": 1, ""learning_rate"": 0.05, ""max_leaf_nodes"": 31, ""min_samples_leaf"": 20}",0.6692147269800404,False
+hist_gradient_boosting,A,11,"{""l2_regularization"": 1, ""learning_rate"": 0.05, ""max_leaf_nodes"": 31, ""min_samples_leaf"": 50}",0.6711877599258992,False
+hist_gradient_boosting,A,12,"{""l2_regularization"": 1, ""learning_rate"": 0.1, ""max_leaf_nodes"": 15, ""min_samples_leaf"": 20}",0.6698652178573317,False
+hist_gradient_boosting,A,13,"{""l2_regularization"": 1, ""learning_rate"": 0.1, ""max_leaf_nodes"": 15, ""min_samples_leaf"": 50}",0.6714305773994835,False
+hist_gradient_boosting,A,14,"{""l2_regularization"": 1, ""learning_rate"": 0.1, ""max_leaf_nodes"": 31, ""min_samples_leaf"": 20}",0.6642874469472771,False
+hist_gradient_boosting,A,15,"{""l2_regularization"": 1, ""learning_rate"": 0.1, ""max_leaf_nodes"": 31, ""min_samples_leaf"": 50}",0.6627810476924781,False
+logistic_regression,B,0,"{""C"": 0.01}",0.6823827546158279,False
+logistic_regression,B,1,"{""C"": 0.1}",0.692032233028789,True
+logistic_regression,B,2,"{""C"": 1}",0.682676767564307,False
+logistic_regression,B,3,"{""C"": 10}",0.676445731865022,False
+hist_gradient_boosting,B,0,"{""l2_regularization"": 0, ""learning_rate"": 0.05, ""max_leaf_nodes"": 15, ""min_samples_leaf"": 20}",0.6920827514994741,False
+hist_gradient_boosting,B,1,"{""l2_regularization"": 0, ""learning_rate"": 0.05, ""max_leaf_nodes"": 15, ""min_samples_leaf"": 50}",0.6897278336589104,False
+hist_gradient_boosting,B,2,"{""l2_regularization"": 0, ""learning_rate"": 0.05, ""max_leaf_nodes"": 31, ""min_samples_leaf"": 20}",0.6856325888096737,False
+hist_gradient_boosting,B,3,"{""l2_regularization"": 0, ""learning_rate"": 0.05, ""max_leaf_nodes"": 31, ""min_samples_leaf"": 50}",0.6935602621956573,True
+hist_gradient_boosting,B,4,"{""l2_regularization"": 0, ""learning_rate"": 0.1, ""max_leaf_nodes"": 15, ""min_samples_leaf"": 20}",0.6872742501080178,False
+hist_gradient_boosting,B,5,"{""l2_regularization"": 0, ""learning_rate"": 0.1, ""max_leaf_nodes"": 15, ""min_samples_leaf"": 50}",0.6776493063885667,False
+hist_gradient_boosting,B,6,"{""l2_regularization"": 0, ""learning_rate"": 0.1, ""max_leaf_nodes"": 31, ""min_samples_leaf"": 20}",0.6792403115485248,False
+hist_gradient_boosting,B,7,"{""l2_regularization"": 0, ""learning_rate"": 0.1, ""max_leaf_nodes"": 31, ""min_samples_leaf"": 50}",0.6823986222331069,False
+hist_gradient_boosting,B,8,"{""l2_regularization"": 1, ""learning_rate"": 0.05, ""max_leaf_nodes"": 15, ""min_samples_leaf"": 20}",0.6866494833417673,False
+hist_gradient_boosting,B,9,"{""l2_regularization"": 1, ""learning_rate"": 0.05, ""max_leaf_nodes"": 15, ""min_samples_leaf"": 50}",0.6886538127032724,False
+hist_gradient_boosting,B,10,"{""l2_regularization"": 1, ""learning_rate"": 0.05, ""max_leaf_nodes"": 31, ""min_samples_leaf"": 20}",0.6892845286814169,False
+hist_gradient_boosting,B,11,"{""l2_regularization"": 1, ""learning_rate"": 0.05, ""max_leaf_nodes"": 31, ""min_samples_leaf"": 50}",0.6874223536869344,False
+hist_gradient_boosting,B,12,"{""l2_regularization"": 1, ""learning_rate"": 0.1, ""max_leaf_nodes"": 15, ""min_samples_leaf"": 20}",0.6853608358041816,False
+hist_gradient_boosting,B,13,"{""l2_regularization"": 1, ""learning_rate"": 0.1, ""max_leaf_nodes"": 15, ""min_samples_leaf"": 50}",0.6848586796501509,False
+hist_gradient_boosting,B,14,"{""l2_regularization"": 1, ""learning_rate"": 0.1, ""max_leaf_nodes"": 31, ""min_samples_leaf"": 20}",0.6854947609163122,False
+hist_gradient_boosting,B,15,"{""l2_regularization"": 1, ""learning_rate"": 0.1, ""max_leaf_nodes"": 31, ""min_samples_leaf"": 50}",0.6820667408917145,False

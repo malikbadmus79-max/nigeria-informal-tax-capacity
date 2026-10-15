@@ -229,6 +229,19 @@ model:
   cv_folds: 5                        # assumption; StratifiedGroupKFold by composite PSU on training rows, stratified on
                                      # the CPI-adjusted target, shuffle=True, random_state=split_seed
   training_weight: none              # models trained unweighted; sensitivity: wt_cross_wave5 as sample_weight
-  operating_points:                  # assumption; thresholds chosen on cross-validation folds
-    max_false_flag_rate: 0.10
-    min_precision: 0.50
+  operating_points:                  # assumption; thresholds chosen on pooled out-of-fold predictions
+    max_false_flag_rate: 0.10        # highest weighted recall with false-flag rate <= 0.10
+    min_recall: 0.50                 # highest threshold with weighted recall >= 0.50; replaced precision >= 0.50
+                                     # on 2026-10-15, after cross-validation and before test evaluation
+  random_state: 20261015             # assumption; fixed random_state for model fitting
+  selection_metric: weighted out-of-fold PR-AUC   # survey-weighted average precision on training folds
+  near_tie_pr_auc: 0.01              # assumption; preferred model: within this margin on set A, logistic regression wins
+  preferred_feature_set: A
+  grids:                             # assumption; hyperparameter grids (plan section 12)
+    logistic_regression:
+      C: [0.01, 0.1, 1, 10]
+    hist_gradient_boosting:
+      learning_rate: [0.05, 0.1]
+      max_leaf_nodes: [15, 31]
+      min_samples_leaf: [20, 50]
+      l2_regularization: [0, 1]

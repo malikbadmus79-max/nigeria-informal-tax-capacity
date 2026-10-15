@@ -21,3 +21,6 @@ Thumbs.db
 
 # Questionnaires and other reference documents (not redistributed)
 docs/reference/
+
+# Fitted models (trained on record-level data; not published)
+artifacts/
