@@ -76,3 +76,35 @@ def audit_zip(tmp_path, audit_frames):
         z.writestr("Post Harvest Wave 5/Household/sect8c_harvestw5.csv", workers.to_csv(index=False))
         z.writestr("Post Harvest Wave 5/Household/secta_harvestw5.csv", cover.to_csv(index=False))
     return path
+
+
+@pytest.fixture
+def design_frames():
+    """Synthetic sect8b and secta with a usable design: 24 households in 8 PSUs (3 households each) and
+    2 strata, about 29 enterprises including closed, two-owner and March-interviewed ones."""
+    nan = float("nan")
+    hh_rows, ent_rows, j = [], [], 0
+    for i in range(24):
+        zone = 1 if i < 12 else 2
+        march = i % 4 == 3
+        hh_rows.append({
+            "zone": f"{zone}. Z{zone}", "state": f"{zone}. S{zone}", "lga": f"{zone}. L{zone}", "ea": i // 3,
+            "sector": "1. URBAN" if (i // 3) % 2 == 0 else "2. RURAL", "hhid": i + 1, "strata": zone,
+            "wt_cross_wave5": 100.0 + 10 * i,
+            "InterviewStart": "2024-03-05T09:00:00" if march else "2024-02-10T09:00:00",
+        })
+        window = list(range(4, 16)) if march else list(range(3, 15))
+        for ent_id in ([1, 2] if i % 5 == 0 else [1]):
+            status = ("3. CLOSED, TEMPORARILY" if j % 7 == 6 else
+                      "4. CLOSED, SEASONALLY" if j % 11 == 10 else "1. CURRENTLY OPERATING")
+            months = window[: 12 - (j % 3) * 2]
+            ent_rows.append({
+                "zone": hh_rows[-1]["zone"], "state": hh_rows[-1]["state"], "lga": hh_rows[-1]["lga"],
+                "ea": hh_rows[-1]["ea"], "sector": hh_rows[-1]["sector"], "hhid": i + 1, "ent_id": ent_id,
+                "s8q2b": "4711. Retail", "s8q3": status, "s8q10": "1. HOME",
+                "s8q11": "1. YES" if j % 5 == 0 else "2. NO", "s8q11b": "1. YES" if j % 2 == 0 else "2. NO",
+                "s8q6_1": 1, "s8q6_2": 2.0 if j % 4 == 0 else nan,
+                "s8q29": 200000, "s8q30": 20000 + 9000 * (j % 10), **_month_flags(months),
+            })
+            j += 1
+    return pd.DataFrame(ent_rows), pd.DataFrame(hh_rows)

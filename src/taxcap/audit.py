@@ -127,6 +127,27 @@ def months_in_window(ent: pd.DataFrame, cover: pd.DataFrame, cfg: dict, rule: st
     return n.where(flags.notna().any(axis=1) & b["last"].notna())
 
 
+def months_scaled_excluding(ent: pd.DataFrame, cover: pd.DataFrame, cfg: dict, excluded_flags,
+                            rule: str | None = None) -> pd.Series:
+    """Months operated with some flags treated as missing (plan section 3.4).
+
+    Flags are counted over the window months whose flag is not excluded, then scaled to the window length
+    (window_months x flagged / usable window months). NaN as in months_in_window, or when no window month
+    is usable.
+    """
+    cols = month_flag_index(ent)
+    excluded = {int(x) for x in excluded_flags}
+    b = window_bounds(ent, cover, cfg, rule)
+    k = np.array([i for i in sorted(cols) if i not in excluded])
+    flags = ent[[cols[i] for i in k]]
+    inside = (k[None, :] >= b["first"].to_numpy()[:, None]) & (k[None, :] <= b["last"].to_numpy()[:, None])
+    flagged = (flags.fillna(0).to_numpy() * inside).sum(axis=1)
+    usable = inside.sum(axis=1)
+    scaled = np.where(usable > 0, flagged * cfg["annualisation"]["window_months"] / np.maximum(usable, 1), np.nan)
+    all_flags = ent[[cols[i] for i in sorted(cols)]]
+    return pd.Series(scaled, index=ent.index).where(all_flags.notna().any(axis=1) & b["last"].notna())
+
+
 def _distribution(n: pd.Series, status: np.ndarray) -> pd.DataFrame:
     table = pd.crosstab(n.fillna(-1).astype(int), status)
     table.index = ["flags or interview date missing" if i == -1 else str(i) for i in table.index]
