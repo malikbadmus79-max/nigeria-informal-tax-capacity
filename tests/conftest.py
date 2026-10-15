@@ -31,18 +31,18 @@ def audit_frames():
     """
     nan = float("nan")
     feb_window = list(range(3, 15))  # March 2023 to February 2024, the window for a February 2024 interview
-    common = dict(s8q10="1. HOME", s8q11="2. NO", s8q11b="2. NO")
+    common = dict(sector="2. RURAL", s8q10="1. HOME", s8q11="2. NO", s8q11b="2. NO")
     ent = pd.DataFrame([
-        {**common, "state": "1. A", "lga": "1. L1", "ea": 10, "hhid": 1, "ent_id": 1,
+        {**common, "zone": "1. X", "state": "1. A", "lga": "1. L1", "ea": 10, "hhid": 1, "ent_id": 1,
          "s8q3": "1. CURRENTLY OPERATING", "s8q2b": "4711. Retail", "s8q11b": "1. YES",
          "s8q6_1": 1, "s8q6_2": nan, "s8q29": 100, "s8q30": 50, **_month_flags(feb_window)},
-        {**common, "state": "1. A", "lga": "1. L1", "ea": 10, "hhid": 1, "ent_id": 2,
+        {**common, "zone": "1. X", "state": "1. A", "lga": "1. L1", "ea": 10, "hhid": 1, "ent_id": 2,
          "s8q3": "1. CURRENTLY OPERATING", "s8q2b": "4711. Retail", "s8q10": "4. MARKET", "s8q11": "1. YES",
          "s8q6_1": 1, "s8q6_2": 2.0, "s8q29": 0, "s8q30": 0, **_month_flags([0, 1, 16])},
-        {**common, "state": "2. B", "lga": "2. L2", "ea": 10, "hhid": 2, "ent_id": 1,
+        {**common, "zone": "2. Y", "state": "2. B", "lga": "2. L2", "ea": 10, "hhid": 2, "ent_id": 1,
          "s8q3": "3. CLOSED, TEMPORARILY", "s8q2b": "4921. Transport",
          "s8q6_1": 1, "s8q6_2": nan, "s8q29": 200, "s8q30": -10, **_month_flags([4, 5, 6, 7, 8, 9])},
-        {**common, "state": "1. A", "lga": "1. L3", "ea": 11, "hhid": 3, "ent_id": 1,
+        {**common, "zone": "1. X", "state": "1. A", "lga": "1. L3", "ea": 11, "hhid": 3, "ent_id": 1,
          "s8q3": "1. CURRENTLY OPERATING", "s8q2b": "1410. Apparel",
          "s8q6_1": 2, "s8q6_2": nan, "s8q29": 50, "s8q30": 80, **_month_flags(None)},
     ])

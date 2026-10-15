@@ -70,6 +70,13 @@ survey_design:
   multi_stratum_psu: modal           # assumption; a PSU spanning strata is assigned its most common stratum, ties to the lowest code
   strata_sensitivity: [zone, sector] # sensitivity: zone x urban/rural as strata
 
+estimation:
+  confidence_level: 0.95             # t distribution, degrees of freedom = design PSUs minus strata
+  reliability:                       # assumption; set before any estimate; flagged estimates are reported, never dropped
+    min_enterprises: 50
+    min_psus: 10
+    max_relative_se: 0.30
+
 # Sector groups from the leading ISIC Rev. 4 class code of s8q2b (four digits, e.g. 4711). Rules are applied
 # in order and the first match wins; ranges are inclusive. Grouping is an assumption based on ISIC Rev. 4 divisions.
 sector_groups:

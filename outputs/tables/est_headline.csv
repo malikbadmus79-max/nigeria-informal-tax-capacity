@@ -1,0 +1,3 @@
+measure,price_basis,estimate,se,ci_low,ci_high,n,psus,df,ci_estimable,relative_se,unreliable
+share of operating enterprises above threshold,nominal,0.19943745433613466,0.012252426806495268,0.17646623223486743,0.22458345963958923,3289,649,718,True,0.06143493381060138,False
+share of operating enterprises above threshold,cpi,0.43811889045407104,0.015668143110151213,0.4076334269554492,0.4690788636093812,3289,649,718,True,0.03576230893379782,False

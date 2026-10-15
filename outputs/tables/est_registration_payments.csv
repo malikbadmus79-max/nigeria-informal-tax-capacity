@@ -1,0 +1,13 @@
+measure,group,price_basis,estimate,se,ci_low,ci_high,n,psus,df,ci_estimable,relative_se,unreliable
+share officially registered with the government (s8q11),all enterprises in the analysis sample,either,0.1361769214812654,0.009904291963387863,0.1178744612323399,0.15681602386062385,3289,649,718,True,0.07273106085564177,False
+share payments to government or non-government local authorities to allow operation (s8q11b),all enterprises in the analysis sample,either,0.339961958891927,0.016330743527058208,0.30866904312987103,0.37271697711905355,3289,649,718,True,0.04803697325514502,False
+share officially registered with the government (s8q11),above threshold,nominal,0.2554179771220075,0.026232659982309246,0.20739033009385077,0.31021482513625515,594,329,718,True,0.10270483024684864,False
+share officially registered with the government (s8q11),at or below threshold,nominal,0.1064713941390857,0.009380264842621285,0.08940844317543627,0.12633888833148826,2695,610,718,True,0.08810126812435327,False
+share payments to government or non-government local authorities to allow operation (s8q11b),above threshold,nominal,0.5672626821411386,0.03191617942909519,0.5038577677642333,0.6285384417195077,594,329,718,True,0.05626349208910986,False
+share payments to government or non-government local authorities to allow operation (s8q11b),at or below threshold,nominal,0.2833364299321713,0.01644523245970596,0.2521885791174316,0.31670209962875373,2695,610,718,True,0.05804136257255318,False
+share pays (s8q11b) and not registered (s8q11),at or below threshold,nominal,0.18838758023626578,0.013193470972182425,0.16383975599106704,0.2156647332123446,2695,610,718,True,0.07003365591105247,False
+share officially registered with the government (s8q11),above threshold,cpi,0.2088985501602626,0.016890369247716044,0.17766712261361076,0.24399109961776466,1314,492,718,True,0.08085441107541487,False
+share officially registered with the government (s8q11),at or below threshold,cpi,0.07947325458881077,0.009317190145150096,0.06299903803763693,0.09979664074136971,1975,554,718,True,0.11723680115224432,False
+share payments to government or non-government local authorities to allow operation (s8q11b),above threshold,cpi,0.4942644364171231,0.02455169394145428,0.44626447986142603,0.5423703580161864,1314,492,718,True,0.04967319542435063,False
+share payments to government or non-government local authorities to allow operation (s8q11b),at or below threshold,cpi,0.21964677281584635,0.015770435217257323,0.1902535212599013,0.2521669697599369,1975,554,718,True,0.07179907546594998,False
+share pays (s8q11b) and not registered (s8q11),at or below threshold,cpi,0.15094729692107706,0.014225326980241012,0.1250882566777687,0.18104588497133184,1975,554,718,True,0.09424035587519489,False

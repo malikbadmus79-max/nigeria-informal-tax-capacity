@@ -173,9 +173,41 @@ The number of enterprises whose annual income lies within ±25% of the threshold
 
 ## 7. Estimation and uncertainty
 
-Shares, means and totals are survey-weighted. Standard errors are Taylor-linearised using the composite PSU and `strata`, with the stratum assignment in section 1.3.
+### 7.1 Variance
 
-All headline numbers carry 95% confidence intervals. State estimates also report the unweighted number of enterprises and of PSUs behind them.
+Shares, means and totals are survey-weighted. Standard errors are Taylor-linearised using the composite PSU and `strata`, with the stratum assignment in section 1.3. Variance uses the stratified with-replacement approximation at PSU level.
+
+Domain estimates keep every PSU in the design in the variance calculation, including PSUs with no enterprise in the domain. The design PSUs are those of households in the cover file with a positive weight.
+
+### 7.2 Confidence intervals
+
+All headline numbers carry 95% confidence intervals from the t distribution, with degrees of freedom equal to the number of design PSUs minus the number of strata.
+
+Proportions use logit-transformed intervals, as in the default of `svyciprop` in the R survey package: expit(logit(p) ± t × SE / (p(1 − p))). The interval is reported as not estimable when p is 0 or 1. Standard errors are unchanged by the transformation.
+
+Means use symmetric t intervals. Medians use Woodruff intervals.
+
+Every domain estimate also reports the unweighted number of enterprises and of PSUs behind it.
+
+### 7.3 Reliability
+
+A domain estimate is flagged "unreliable" if any of the following holds:
+
+- It rests on fewer than 50 enterprises.
+- It rests on fewer than 10 PSUs.
+- Its relative standard error exceeds 30%.
+
+Flagged estimates are still reported, never dropped (`estimation.reliability`).
+
+### 7.4 Representativeness
+
+The survey is designed to be representative nationally and by geopolitical zone (T05). The study description does not state representativeness by urban/rural location or by state. Its only state-level reference is the calibration of the cross-sectional weights to state populations of males and females.
+
+State estimates are therefore labelled "indicative" in a separate column of every state-level table, whatever their reliability flag.
+
+Urban/rural is not a stated design domain either: T05 states representativeness nationally and by zone only. Urban and rural estimates are reported without the "indicative" label and with their normal standard errors.
+
+### 7.5 Sensitivity
 
 As a sensitivity, variance is re-estimated with zone × urban/rural (`zone` × `sector`, 12 cells) as strata.
 
@@ -317,5 +349,8 @@ The changes below were made before any income estimate or model result existed. 
 | 2026-10-15 | Window end capped at April 2024 (`s8q9__16`). Previously, May 2024 was counted as not operated for May interviews. | May 2024 has no flag column. Counting it as not operated limited the 85 May 2024 interviews to at most 11 months. |
 | 2026-10-15 | Feature variables named from the World Bank data dictionary. Owner gender and age restricted to error-rate breakdowns. Training weights, holdout share, folds, seed, winsorisation percentile, threshold band, operating points and sector mapping entered in the configuration. | All fixed before any split or model fit. |
 | 2026-10-15 | Price adjustment set: chained NBS headline year-on-year rates for August 2024, 2025 and 2026, cpi_ratio 1.8777 from August 2023 to August 2026 prices. The revised August 2025 rate is used, with the originally published rate as a sensitivity. Results reported as a range from nominal to CPI-adjusted. Replaces the open item in section 4. | Made before any income estimate. Chaining year-on-year rates avoids linking index levels across the January 2025 rebase (section 4). |
+| 2026-10-15 | Reliability rule added: a domain estimate is flagged "unreliable" if it rests on fewer than 50 enterprises or fewer than 10 PSUs, or its relative standard error exceeds 30%. Flagged estimates are reported, not dropped. Confidence intervals use the t distribution with degrees of freedom equal to design PSUs minus strata. | Set before any estimate was computed (section 7). |
+| 2026-10-15 | Proportion confidence intervals changed from symmetric t intervals to logit-transformed intervals; not estimable when p is 0 or 1 (section 7.2). | Changed after the first estimates, because symmetric intervals gave negative lower bounds for small domains. Point estimates and standard errors are unaffected. |
+| 2026-10-15 | State estimates labelled "indicative" in a new column, whatever the reliability flag (section 7.4). | Changed after the first estimates. The survey is designed to be representative nationally and by zone, not by state (T05). Point estimates, standard errors and reliability flags are unaffected. |
 
 No deviations after test results have been recorded.

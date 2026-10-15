@@ -1,0 +1,10 @@
+item,value
+design PSUs (cover-file households with positive weight),724.0
+strata,6.0
+degrees of freedom (PSUs minus strata),718.0
+PSUs with operating enterprises,651.0
+PSUs with analysis-sample enterprises,649.0
+PSUs with operating enterprises in more than one stratum (modal rule applied),11.0
+winsorisation percentile,99.5
+cpi_ratio,1.8777
+threshold (naira),800000.0

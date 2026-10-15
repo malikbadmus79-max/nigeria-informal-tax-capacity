@@ -1,0 +1,8 @@
+step,count
+enterprises in sect8b,3436
+not currently operating (s8q3 != 1),98
+currently operating (s8q3 = 1),3338
+excluded: s8q9 flags or interview date missing,1
+excluded: no month operated in window,48
+excluded: weight missing or non-positive,0
+analysis sample,3289
