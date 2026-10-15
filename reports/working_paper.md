@@ -86,7 +86,7 @@ The share of operating informal non-farm businesses with annual income above ₦
 
 ![Figure 1](../outputs/figures/fig1_headline.png)
 
-*Figure 1. Share of operating informal non-farm businesses with annual income above ₦800,000, survey-weighted, with 95% confidence intervals. The light band shows the range across eight sensitivity scenarios.*
+*Figure 1. Share of operating informal non-farm businesses with annual income above ₦800,000, survey-weighted, with 95% confidence intervals. The light band shows the range across the primary estimate and seven alternative scenarios.*
 
 A substantial share of businesses lies near the threshold. Between ₦600,000 and ₦1,000,000 lie 16.5% of businesses (95% CI 14.5% to 18.6%; 489 enterprises) if incomes have not grown since 2023/24, and 22.2% (95% CI 20.1% to 24.5%; 728 enterprises) if incomes kept pace with inflation (est_threshold_band.csv). Classification near the threshold therefore depends on the accuracy of a single month's recalled profit.
 
@@ -116,7 +116,7 @@ Registration follows the same pattern at a lower level: 25.5% (95% CI 20.7% to 3
 
 ### 6.3 Sensitivity
 
-Eight scenarios vary one assumption at a time (est_sensitivity.csv). Across them, the share above the threshold ranges from 17.8% to 21.9% if incomes have not grown since 2023/24, and from 41.7% to 47.7% if incomes kept pace with inflation. The lowest values come from the fixed calendar window, which undercounts months for households interviewed early; the highest from multiplying monthly profit by 12, which ignores months not operated. Adding temporarily and seasonally closed enterprises gives 19.7% and 43.1%. Treating each owner as the unit, with two-owner enterprises split equally, gives 19.2% and 43.0% of 3,359 persons. Using the originally published August 2025 inflation rate gives 43.0% on the price-adjusted basis. Changing the variance strata to zone by urban or rural location leaves the point estimates unchanged.
+Seven alternative scenarios each vary one assumption at a time (est_sensitivity.csv). Across the primary estimate and these seven scenarios, the share above the threshold ranges from 17.8% to 21.9% if incomes have not grown since 2023/24, and from 41.7% to 47.7% if incomes kept pace with inflation. The lowest values come from the fixed calendar window, which undercounts months for households interviewed early; the highest from multiplying monthly profit by 12, which ignores months not operated. Adding temporarily and seasonally closed enterprises gives 19.7% and 43.1%. Treating each owner as the unit, with two-owner enterprises split equally, gives 19.2% and 43.0% of 3,359 persons. Using the originally published August 2025 inflation rate gives 43.0% on the price-adjusted basis. Changing the variance strata to zone by urban or rural location leaves the point estimates unchanged.
 
 The share of businesses at or below the threshold that make payments to local authorities to allow operation is stable across scenarios: from 28.1% to 29.2% on the first basis and from 21.6% to 22.9% on the second. Profit winsorisation affects means only: the untreated mean annual income is ₦684,772 and ₦1,285,797 on the two bases, against ₦565,660 and ₦1,062,139 with winsorisation (est_income.csv).
 

@@ -20,7 +20,10 @@ import pandas as pd
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
-REPORTS = ["working_paper", "policy_brief"]
+REPORTS = {"working_paper": ROOT / "reports" / "working_paper.md",
+           "policy_brief": ROOT / "reports" / "policy_brief.md",
+           "README": ROOT / "README.md"}
+MUST_MATCH_BRIEF = {"README"}   # figures quoted in these documents must appear verbatim in the policy brief
 TABLE_ORDER = ["est_exclusions", "est_design", "est_headline", "est_domains", "est_registration_payments",
                "est_income", "est_threshold_band", "est_sensitivity", "test_metrics", "test_differences",
                "test_calibration", "test_importance", "test_groups", "oof_groups", "cv_selected", "split_summary"]
@@ -121,8 +124,12 @@ def classify(tok: str, tables, sources, params) -> str:
 
 
 def check(name: str, tables, sources, params) -> tuple[pd.DataFrame, list[str], int]:
-    text = (ROOT / "reports" / f"{name}.md").read_text(encoding="utf-8")
+    text = REPORTS[name].read_text(encoding="utf-8")
     body = text.split("## References")[0]
+    body = re.sub(r"(?s)```.*?```", "", body)                                # code blocks (commands)
+    if name in MUST_MATCH_BRIEF:   # keep link and image alt text, which is checked; drop the URL or path
+        body = re.sub(r"!?\[([^\]]*)\]\([^)]*\)", r"\1", body)
+    body = re.sub(r"(CC BY|Attribution) 4\.0", "", body)                      # licence version
     body = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", body)                       # figure paths
     body = re.sub(r"\[T\d\d(?:[,–\- ]+T?\d\d)*\]", "", body)                # source citations
     body = re.sub(r"(?m)^#+ \d+(\.\d+)?\.?", "", body)                     # section numbers in headings
@@ -139,6 +146,11 @@ def check(name: str, tables, sources, params) -> tuple[pd.DataFrame, list[str], 
         if ("s8q11b" in low or "local authorit" in low) and re.search(r"\btax(es)?\b", low):
             if re.search(r"(local|authorit\w*)\s+tax|tax\w*\s+(paid\s+)?to\s+local|s8q11b\W+tax", low):
                 issues.append(f"tax applied to local payments: {sent[:120]}")
+    if name in MUST_MATCH_BRIEF:
+        brief = REPORTS["policy_brief"].read_text(encoding="utf-8")
+        for tok in numbers["number"]:
+            if re.search(r"%|₦|\.", tok) and tok not in brief:
+                issues.append(f"{tok} does not appear in the policy brief")
     words = len(re.findall(r"\b\w[\w'’-]*\b", text.split("## References")[0]))
     return numbers, issues, words
 
@@ -154,7 +166,7 @@ def run() -> dict:
     for name in REPORTS:
         numbers, issues, words = check(name, tables, sources, params)
         result[name] = {"numbers": numbers, "issues": issues, "words": words}
-        out += [f"## {name}.md", "", f"Words (excluding references): {words}", "",
+        out += [f"## {REPORTS[name].name}", "", f"Words (excluding references): {words}", "",
                 "| Number | Source |", "| --- | --- |"]
         out += [f"| {r.number} | {r.source or 'UNMATCHED'} |" for r in numbers.itertuples()]
         out += ["", "Wording issues: " + ("; ".join(issues) if issues else "none"), ""]

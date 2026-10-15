@@ -20,9 +20,9 @@ The analysis uses the Nigeria General Household Survey Panel, Wave 5 (2023/24), 
 
 ![Figure 1](../outputs/figures/fig1_headline.png)
 
-*Figure 1. Share of informal businesses with annual income above ₦800,000, with 95% confidence intervals and the range across eight sensitivity scenarios.*
+*Figure 1. Share of informal businesses with annual income above ₦800,000, with 95% confidence intervals and the range across the primary estimate and seven alternative scenarios.*
 
-The share above the threshold is 19.9% (95% CI 17.6% to 22.5%) if incomes have not grown since 2023/24, and 43.8% (95% CI 40.8% to 46.9%) if incomes kept pace with inflation. Across eight alternative assumptions about months operated, the population, the unit of analysis, the price index and the survey design, the share ranges from 17.8% to 21.9% on the first basis and from 41.7% to 47.7% on the second. The share is highest in the South South (31.8% to 53.1%) and lowest in the North East (13.0% to 28.3%).
+The share above the threshold is 19.9% (95% CI 17.6% to 22.5%) if incomes have not grown since 2023/24, and 43.8% (95% CI 40.8% to 46.9%) if incomes kept pace with inflation. Across the primary estimate and seven alternative scenarios that change months operated, the population, the unit of analysis, the price index or the survey design, the share ranges from 17.8% to 21.9% on the first basis and from 41.7% to 47.7% on the second. The share is highest in the South South (31.8% to 53.1%) and lowest in the North East (13.0% to 28.3%).
 
 ![Figure 2](../outputs/figures/fig3_local_payments.png)
 

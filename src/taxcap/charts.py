@@ -129,8 +129,8 @@ def fig_headline(out: Path) -> Path:
     n = int(h.loc["nominal", "n"])
     frame(fig, f"About {pct(h.loc['nominal', 'estimate'])} to {pct(h.loc['cpi', 'estimate'])} of informal businesses "
                f"earn above {THRESHOLD} a year",
-          f"Survey-weighted share, point and 95% CI; light band = range across {s['scenario'].nunique()} sensitivity "
-          f"scenarios. n = {n:,} enterprises.")
+          f"Survey-weighted share, point and 95% CI; light band = range across the primary estimate and "
+          f"{s.loc[s['scenario'] != 'primary', 'scenario'].nunique()} alternative scenarios. n = {n:,} enterprises.")
     return save(fig, "fig1_headline.png", out)
 
 

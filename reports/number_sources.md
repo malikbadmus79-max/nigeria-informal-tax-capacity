@@ -7,7 +7,7 @@ the table each number comes from.
 
 ## working_paper.md
 
-Words (excluding references): 5664
+Words (excluding references): 5676
 
 | Number | Source |
 | --- | --- |
@@ -241,7 +241,7 @@ Wording issues: none
 
 ## policy_brief.md
 
-Words (excluding references): 1549
+Words (excluding references): 1558
 
 | Number | Source |
 | --- | --- |
@@ -301,5 +301,37 @@ Words (excluding references): 1549
 | 21.0% | oof_groups.csv [zone | 5. South South | false_flag_rate] estimate; oof_groups.csv [owner_age_band | 35-44 | false_flag_rate] relative_se |
 | 32.5% | est_domains.csv [state | 14. Enugu | cpi] relative_se; est_domains.csv [state | 32. Rivers | nominal] ci_low; oof_groups.csv [owner_gender | female | prevalence] estimate; and 1 more |
 | 58.7% | oof_groups.csv [owner_gender | male | prevalence] estimate |
+
+Wording issues: none
+
+## README.md
+
+Words (excluding references): 1300
+
+| Number | Source |
+| --- | --- |
+| ₦800,000 | T01 |
+| 2026 | T01 |
+| 19.9% | est_headline.csv [share of operating enterprises above threshold | nominal] estimate; est_sensitivity.csv [primary | primary settings | enterprises] estimate; est_sensitivity.csv [strata_zone_urban_rural | strata = zone x urban/rural (variance only) | enterprises] estimate; and 1 more |
+| 43.8% | est_headline.csv [share of operating enterprises above threshold | cpi] estimate; est_sensitivity.csv [primary | primary settings | enterprises] estimate; est_sensitivity.csv [strata_zone_urban_rural | strata = zone x urban/rural (variance only) | enterprises] estimate; and 1 more |
+| 2023 | T05 |
+| 28.3% | est_domains.csv [zone | 2. North East | cpi] estimate; est_registration_payments.csv [share payments to government or non-government local authori | at or below threshold | nominal] estimate; est_sensitivity.csv [primary | primary settings | enterprises] estimate; and 4 more |
+| 22.0% | est_domains.csv [sector_group | accommodation_food_service | nominal] estimate; est_domains.csv [state | 17. Jigawa | nominal] relative_se; est_registration_payments.csv [share payments to government or non-government local authori | at or below threshold | cpi] estimate; and 5 more |
+| 2025 | T01 |
+| 665 | split_summary.csv [all | test | enterprises] value |
+| 28.1% | est_sensitivity.csv [profit_x12 | annual income = monthly profit x 12 | enterprises] estimate; est_sensitivity.csv [include_closed | adds temporarily and seasonally closed enterprises | enterprises] estimate; test_metrics.csv [logistic_regression | A | headline] estimate; and 1 more |
+| 7.3% | est_domains.csv [zone | 3. North West | cpi] relative_se; est_domains.csv [state | 34. Taraba | nominal] se; est_registration_payments.csv [share officially registered with the government (s8q11) | all enterprises in the analysis sample | either] relative_se; and 2 more |
+| 20.0% | est_sensitivity.csv [unprinted_flags_missing | s8q9 flags 15 and 16 missing, months scaled to 12 | enterprises] estimate; test_metrics.csv [rule_registered | - | baseline] estimate; oof_groups.csv [owner_age_band | 25-34 | recall] estimate |
+| 5.6% | est_domains.csv [sector_group | transport | cpi] relative_se; est_domains.csv [state | 24. Lagos | cpi] se; est_domains.csv [state | 29. Osun | cpi] se; and 11 more |
+| 7.0% | est_domains.csv [zone | 5. South South | cpi] relative_se; est_domains.csv [sector_group | food_retail | cpi] relative_se; est_domains.csv [state | 7. Benue | cpi] se; and 5 more |
+| 15.9% | oof_groups.csv [owner_gender | male | false_flag_rate] estimate |
+| 32.5% | est_domains.csv [state | 14. Enugu | cpi] relative_se; est_domains.csv [state | 32. Rivers | nominal] ci_low; oof_groups.csv [owner_gender | female | prevalence] estimate; and 1 more |
+| 58.7% | oof_groups.csv [owner_gender | male | prevalence] estimate |
+| 56.7% | est_registration_payments.csv [share payments to government or non-government local authori | above threshold | nominal] estimate; oof_groups.csv [urban_rural | rural | precision] ci_low; oof_groups.csv [owner_age_band | 45-54 | prevalence] ci_high |
+| 3,289 | est_exclusions.csv [analysis sample] count; est_headline.csv [share of operating enterprises above threshold | nominal] n; est_headline.csv [share of operating enterprises above threshold | cpi] n; and 14 more |
+| 12 | config annualisation.window_months |
+| 1.8777 | est_design.csv [cpi_ratio] value |
+| 95% | config estimation.confidence_level |
+| 6410 | T05 |
 
 Wording issues: none
