@@ -4,7 +4,8 @@ A share of PSUs (model.holdout_share) is held out as the final test set, drawn w
 fixed seed (model.split_seed). Training rows are assigned to model.cv_folds folds with StratifiedGroupKFold
 (shuffled, random_state = model.split_seed), grouped by PSU and stratified on the CPI-adjusted target. Test rows are returned only by ``Split.test_rows(..., final_evaluation=True)``; every other accessor
 returns training rows. No PSU code or row assignment is written to disk: ``python -m taxcap.split`` writes
-aggregate summaries only, with a SHA-256 hash of the sorted test PSU list for later verification.
+aggregate summaries only, with a SHA-256 hash of the sorted test PSU list. On a rerun the rebuilt split is
+checked against the hash already recorded in outputs/tables/split_summary.csv, and the run stops if it differs.
 """
 from __future__ import annotations
 
@@ -122,6 +123,30 @@ def make_split(fr, cfg: dict) -> Split:
     return Split(s["psu"], s["zone"], s["above_cpi"], cfg)
 
 
+HASH_MEASURE = "SHA-256 of sorted test PSU list"
+
+
+class SplitChanged(RuntimeError):
+    pass
+
+
+def recorded_hash(summary_path: Path) -> str | None:
+    """Test-PSU hash recorded in an existing split_summary.csv, or None if there is none."""
+    if not Path(summary_path).exists():
+        return None
+    s = pd.read_csv(summary_path)
+    rec = s.loc[s["measure"] == HASH_MEASURE, "value"]
+    return str(rec.iloc[0]) if len(rec) == 1 else None
+
+
+def verify_split(split: Split, summary_path: Path) -> str:
+    """Refuse to continue if a rebuilt split differs from the one recorded in split_summary.csv."""
+    recorded = recorded_hash(summary_path)
+    if recorded is not None and recorded != split.test_psu_hash():
+        raise SplitChanged(f"test PSU hash {split.test_psu_hash()} does not match the recorded {recorded}")
+    return "matches the recorded hash" if recorded else "no recorded hash; recording it"
+
+
 def run(zip_path=None, out_dir=None, config_path=None):
     cfg = load_config(config_path)
     ent = read_table(ENTERPRISE_FILE, zip_path=zip_path)
@@ -129,6 +154,9 @@ def run(zip_path=None, out_dir=None, config_path=None):
     fr = build_frame(ent, cover, cfg)
     household = {f: read_table(f, zip_path=zip_path) for f in HOUSEHOLD_FILES}
     split = make_split(fr, cfg)
+    out_dir = Path(out_dir) if out_dir else PROJECT_ROOT / "outputs" / "tables"
+    status = verify_split(split, out_dir / "split_summary.csv")   # before anything is overwritten
+    print(f"Test PSU hash {split.test_psu_hash()}: {status}")
     table = build_features(fr, ent, household, split.train_mask)
 
     split_summary = split.summary()
@@ -138,7 +166,6 @@ def run(zip_path=None, out_dir=None, config_path=None):
               "features_summary": feat,
               "features_coverage": household_coverage(fr, household)}
     check_no_identifiers(tables)
-    out_dir = Path(out_dir) if out_dir else PROJECT_ROOT / "outputs" / "tables"
     out_dir.mkdir(parents=True, exist_ok=True)
     with pd.option_context("display.width", 200, "display.max_rows", 200, "display.max_colwidth", 70):
         for name, t in tables.items():

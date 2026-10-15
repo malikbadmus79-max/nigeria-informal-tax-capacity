@@ -197,3 +197,15 @@ def test_folds_use_only_training_targets(table, cfg):
 def test_fold_target_shares_reported_for_training_folds_only(table, split):
     t = training_target_shares(table, split)
     assert set(t["set"]) == {"train"} | {f"train fold {k}" for k in range(5)}
+
+
+def test_verify_split_against_recorded_hash(split, tmp_path):
+    from taxcap.split import HASH_MEASURE, SplitChanged, verify_split
+    path = tmp_path / "split_summary.csv"
+    assert "no recorded hash" in verify_split(split, path)   # first run records the hash
+    pd.DataFrame({"zone": ["all"], "set": ["test"], "measure": [HASH_MEASURE],
+                  "value": [split.test_psu_hash()]}).to_csv(path, index=False)
+    assert "matches" in verify_split(split, path)
+    pd.DataFrame({"zone": ["all"], "set": ["test"], "measure": [HASH_MEASURE], "value": ["0" * 64]}).to_csv(path, index=False)
+    with pytest.raises(SplitChanged):
+        verify_split(split, path)

@@ -318,7 +318,12 @@ def run(zip_path=None, out_dir=None, config_path=None, artifacts_dir=None, selec
     record = selection_record(selected, preferred, split, cfg, artifacts)
     if selection_path.exists():   # a rerun may change thresholds, never the frozen hyperparameters or preferred model
         with open(selection_path, encoding="utf-8") as f:
-            assert_selection_unchanged(yaml.safe_load(f), record)
+            previous = yaml.safe_load(f)
+        assert_selection_unchanged(previous, record)
+        # keep the original freeze date and revision notes, so a reproduction run on unchanged data rewrites the
+        # file byte for byte and taxcap.evaluate still accepts it
+        record["frozen_on"] = previous.get("frozen_on", record["frozen_on"])
+        record["revisions"] = previous.get("revisions", record["revisions"])
     with open(selection_path, "w", encoding="utf-8") as f:
         f.write("# Frozen model selection (written by taxcap.model before any test evaluation). Do not edit.\n")
         yaml.safe_dump(record, f, sort_keys=False)
