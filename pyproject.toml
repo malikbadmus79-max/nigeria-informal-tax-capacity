@@ -21,6 +21,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "jupyter>=1.0", "ipykernel>=6.29"]
+reports = ["markdown>=3.5", "xhtml2pdf>=0.2.16"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

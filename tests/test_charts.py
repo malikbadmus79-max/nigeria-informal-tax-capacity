@@ -66,7 +66,8 @@ def tables(tmp_path):
 def test_every_figure_produced(tables, tmp_path):
     out = tmp_path / "figs"
     paths = charts.run(out_dir=out, tables_dir=tables)
-    assert sorted(p.name for p in paths) == sorted(charts.FIGURES_PRODUCED)
+    assert [p.name for p in paths] == charts.FIGURES_PRODUCED   # files numbered in the working paper order
+    assert charts.FIGURES_PRODUCED[4:] == ["fig5_importance.png", "fig6_calibration.png", "fig7_fairness.png"]
     for name in charts.FIGURES_PRODUCED:
         assert (out / name).stat().st_size > 10_000
 

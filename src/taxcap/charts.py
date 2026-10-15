@@ -30,7 +30,7 @@ SOURCE = "Source: GHS-Panel Wave 5 (2023/24), author's calculations."
 THRESHOLD = "₦800,000"
 DPI = 200
 FIGURES_PRODUCED = [f"fig{i}_{n}.png" for i, n in enumerate(
-    ["headline", "zones", "local_payments", "model_vs_rule", "fairness", "importance", "calibration"], start=1)]
+    ["headline", "zones", "local_payments", "model_vs_rule", "importance", "calibration", "fairness"], start=1)]  # working paper order
 
 plt.rcParams.update({
     "font.family": "sans-serif", "font.sans-serif": ["DejaVu Sans"], "font.size": 9,
@@ -261,7 +261,7 @@ def fig_fairness(out: Path) -> Path:
                f"{pct(hi.estimate)} ({names.get(hi.group, zone_label(hi.group))}) across groups",
           f"Out-of-fold predictions on training PSUs, flagged at the false-flag-rate operating point; 95% bootstrap "
           f"intervals; hollow = unreliable. n = {n:,} enterprises.")
-    return save(fig, "fig5_fairness.png", out)
+    return save(fig, "fig7_fairness.png", out)
 
 
 def fig_importance(out: Path) -> Path:
@@ -287,7 +287,7 @@ def fig_importance(out: Path) -> Path:
     frame(fig, f"{pretty.get(top[0], top[0])} and {pretty.get(top[1], top[1]).lower()} carry the most predictive "
                "signal in the preferred model",
           f"Test-set permutation importance, logistic regression feature set A, 20 repeats. n = {n:,} enterprises.")
-    return save(fig, "fig6_importance.png", out)
+    return save(fig, "fig5_importance.png", out)
 
 
 def fig_calibration(out: Path) -> Path:
@@ -309,11 +309,11 @@ def fig_calibration(out: Path) -> Path:
     frame(fig, f"Observed and predicted shares differ by {100 * gap:.1f} points on average across deciles",
           f"Test-set calibration, logistic regression feature set A, {len(c)} deciles. n = {int(c['n'].sum()):,} "
           "enterprises.")
-    return save(fig, "fig7_calibration.png", out)
+    return save(fig, "fig6_calibration.png", out)
 
 
-FIGURES_FUNCS = [fig_headline, fig_zones, fig_local_payments, fig_model_vs_rule, fig_fairness, fig_importance,
-                 fig_calibration]
+FIGURES_FUNCS = [fig_headline, fig_zones, fig_local_payments, fig_model_vs_rule, fig_importance, fig_calibration,
+                 fig_fairness]
 
 
 def run(out_dir: Path | None = None, tables_dir: Path | None = None) -> list[Path]:
