@@ -7,7 +7,7 @@
 - Every assumption (threshold, price adjustment, income allocation, annualisation window) lives in config/assumptions.yaml with a source or an "assumption" label. Do not hard-code these values in code or notebooks.
 
 ## Analysis
-- National and state estimates use survey weights (wt_wave5) and report uncertainty that accounts for clusters (ea) and strata.
+- National and state estimates use survey weights (wt_cross_wave5) and report uncertainty that accounts for clusters (the state x lga x ea composite PSU) and strata.
 - Model features are limited to characteristics a tax authority could observe. Sales, profit and costs are never model features.
 - Model evaluation uses held-out enumeration areas (grouped splits), never random row splits.
 - Changes to the analysis plan after seeing test results are recorded in docs/analysis_plan.md with a date and reason.

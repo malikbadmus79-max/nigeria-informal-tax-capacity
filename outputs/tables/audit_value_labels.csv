@@ -1,0 +1,33 @@
+variable,rank,label,count,distinct_values,other_count
+s8q3,1,1. CURRENTLY OPERATING,3338,4,0
+s8q3,2,"3. CLOSED, TEMPORARILY",63,4,0
+s8q3,3,"4. CLOSED, SEASONALLY",27,4,0
+s8q3,4,"2. CLOSED, PERMANENTLY",8,4,0
+s8q10,1,1. HOME (INSIDE RESIDENCE),840,9,0
+s8q10,2,2. HOME (OUTSIDE RESIDENCE),497,9,0
+s8q10,3,4. TRADITIONAL MARKET,493,9,0
+s8q10,4,5. COMMERCIAL AREA SHOP,481,9,0
+s8q10,5,8. MOBILE/NO FIXED LOCATION,460,9,0
+s8q10,6,6. ROADSIDE,323,9,0
+s8q10,7,7. OTHER FIXED PLACE,283,9,0
+s8q10,8,3. INDUSTRIAL SITE,40,9,0
+s8q10,9,96. OTHER (SPECIFY),19,9,0
+s8q11,1,2. NO,2993,2,0
+s8q11,2,1. YES,443,2,0
+s8q11b,1,2. NO,2340,2,0
+s8q11b,2,1. YES,1096,2,0
+s8q2b,1,"4711. Retail sale in non-specialized stores with food, beverages or tobacco predominating",313,182,1218
+s8q2b,2,"4781. Retail sale via stalls and markets of food, beverages and tobacco products",310,182,1218
+s8q2b,3,4719. Other retail sale in non-specialized stores,306,182,1218
+s8q2b,4,4921. Urban and suburban passenger land transport,188,182,1218
+s8q2b,5,4721. Retail sale of food in specialized stores,160,182,1218
+s8q2b,6,"1410. Manufacture of wearing apparel, except fur apparel",143,182,1218
+s8q2b,7,5610. Restaurants and mobile food service activities,114,182,1218
+s8q2b,8,"4799. Other retail sale not in stores, stalls or markets",108,182,1218
+s8q2b,9,5629. Other food service activities,104,182,1218
+s8q2b,10,4789. Retail sale via stalls and markets of other goods,99,182,1218
+s8q2b,11,9602. Hairdressing and other beauty treatment,89,182,1218
+s8q2b,12,4922. Other passenger land transport,86,182,1218
+s8q2b,13,4100. Construction of buildings,69,182,1218
+s8q2b,14,1079. Manufacture of other food products n.e.c,65,182,1218
+s8q2b,15,4722. Retail sale of beverages in specialized stores,64,182,1218

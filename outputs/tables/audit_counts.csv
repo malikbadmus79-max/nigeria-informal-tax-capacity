@@ -1,0 +1,15 @@
+item,measure,count
+enterprises,total,3436
+enterprises,currently operating (s8q3 = 1),3338
+enterprises,not operating,98
+enterprises,s8q3 missing,0
+s8q29 (sales),"missing, all",0
+s8q29 (sales),"zero, all",21
+s8q29 (sales),"missing, operating",0
+s8q29 (sales),"zero, operating",11
+s8q30 (profit),"missing, all",0
+s8q30 (profit),"zero, all",21
+s8q30 (profit),"missing, operating",0
+s8q30 (profit),"zero, operating",11
+s8q29 and s8q30,"both zero, all",19
+s8q29 and s8q30,"both zero, operating",9

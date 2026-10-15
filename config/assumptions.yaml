@@ -9,8 +9,23 @@ tax_rules:
   pit_effective_date: 2026-01-01
 
 annualisation:
-  window_first_month_flag: 4         # s8q9__4 = April 2023
-  window_last_month_flag: 15         # s8q9__15 = March 2024 (12-month window ending at fieldwork close)
+  # s8q9 wording (post-harvest questionnaire, Section 8, Q9): "In which months did you operate this
+  # [NON-FARM ENTERPRISE] in the past 12 months?" INTERVIEWER: INDICATE THE MONTHS OPERATED WITH AN "X".
+  # Printed codes run from JANUARY 2023 = 01 to FEBRUARY 2024 = 14.
+  # Flags s8q9__15 and s8q9__16 are not printed in the questionnaire. They are assumed to continue the
+  # sequence as March 2024 and April 2024 (assumption); the World Bank data dictionary (catalog 6410, file F74)
+  # labels them MARCH 2024 and APRIL 2024. The data dictionary labels s8q9__0 "ALL 12 MONTHS"; no operating
+  # enterprise flags it (outputs/tables/audit_month_flags_by_interview.csv).
+  rule: 12_months_ending_interview_month   # assumption; alternative: fixed_calendar_window (sensitivity)
+  window_months: 12                        # assumption; the window's last month counts as the 12th
+  last_month_flag: 16                      # s8q9__16 = April 2024, the last month with a flag column; the window ends
+                                           # at the interview month or this month, whichever is earlier (assumption)
+  interview_date_variable: InterviewStart  # secta_harvestw5, cover page item 1 "Interview Start Time"; text YYYY-MM-DDTHH:MM:SS
+  month_flag_origin: "2023-01"             # s8q9__1 = January 2023 (questionnaire Q9 code 01)
+  fixed_window_sensitivity:                # sensitivity only: the earlier fixed April 2023 to March 2024 window
+    first_month_flag: 4                    # s8q9__4 = April 2023
+    last_month_flag: 15                    # s8q9__15 = March 2024 (assumed, see above)
+  unprinted_flags_sensitivity: [15, 16]    # sensitivity: treated as missing; months counted over printed window months, scaled to 12
 
 price_adjustment:
   method: none                       # placeholder until CPI series is sourced; options: none, cpi_ratio
@@ -19,7 +34,160 @@ price_adjustment:
 income_allocation:
   rule: enterprise                   # enterprise | owner_sum ; owner_sum adds all enterprise profit per owner
 
+outliers:
+  winsorisation_percentile: 99.5     # assumption; weighted percentile of operating enterprises, applied to means and totals only
+  threshold_band: 0.25               # assumption; enterprises within +/-25% of the threshold are counted and reported
+
+# Registration and local payments (post-harvest questionnaire, Section 8; no interviewer instruction printed):
+#   s8q11:  "Is this [NON-FARM ENTERPRISE] officially registered with the government?" YES 1, NO 2.
+#   s8q11b: "Did your household make any payments to local authorities (government or non-government) to
+#            allow operation of [NON-FARM ENTERPRISE] in past 12 months?" YES 1, NO 2.
+# s8q11b is described in outputs as "payments to government or non-government local authorities to allow
+# operation", never as tax.
+
 survey_design:
-  weight: wt_wave5
-  cluster: ea
+  weight: wt_cross_wave5             # World Bank study description: cross-sectional weights
+  psu: [state, lga, ea]              # composite PSU; ea codes repeat across states (outputs/tables/audit_survey_design.csv)
   strata: strata
+  multi_stratum_psu: modal           # assumption; a PSU spanning strata is assigned its most common stratum, ties to the lowest code
+  strata_sensitivity: [zone, sector] # sensitivity: zone x urban/rural as strata
+
+# Sector groups from the leading ISIC Rev. 4 class code of s8q2b (four digits, e.g. 4711). Rules are applied
+# in order and the first match wins; ranges are inclusive. Grouping is an assumption based on ISIC Rev. 4 divisions.
+sector_groups:
+  variable: s8q2b
+  missing_code_group: not_coded      # s8q2b blank; kept as its own category
+  groups:
+    - name: food_retail
+      label: Food retail
+      ranges: [[4711, 4711], [4721, 4723], [4781, 4781]]
+    - name: food_processing
+      label: Food and beverage processing
+      ranges: [[1000, 1299]]         # divisions 10-12
+    - name: primary_manufacturing_utilities
+      label: Primary activities, mining, other manufacturing and utilities
+      ranges: [[100, 999], [1300, 3999]]   # divisions 01-09 and 13-39
+    - name: construction
+      label: Construction
+      ranges: [[4100, 4399]]         # divisions 41-43
+    - name: other_trade
+      label: Other trade
+      ranges: [[4500, 4799]]         # divisions 45-47, after the food retail classes
+    - name: transport
+      label: Transport and storage
+      ranges: [[4900, 5399]]         # divisions 49-53
+    - name: accommodation_food_service
+      label: Accommodation and food service
+      ranges: [[5500, 5699]]         # divisions 55-56
+    - name: personal_other_services
+      label: Personal and other services
+      ranges: [[5800, 9999]]         # divisions 58-99
+
+# Model features: characteristics a tax authority could observe. Variable names and labels are from the
+# World Bank data dictionary for catalog 6410 (file numbers F#). Household-level features attach to each
+# enterprise by hhid. sect5a1, sect5b and sect10 are from the post-planting visit (July to September 2023);
+# the others are from the post-harvest visit. A household with no answer from any member gets a missing value.
+features:
+  enterprise:
+    sector_group:
+      file: sect8b_harvestw5         # F74
+      variable: s8q2b                # "Enterprise activity (INDUSTRY CODE)"
+      coding: categorical; sector_groups above
+    premises:
+      file: sect8b_harvestw5
+      variable: s8q10                # "Where does your household operate this [NFE]?"
+      coding: categorical; leading code, codes held by fewer than 1% of operating enterprises merged into 96 (other)
+    registered:
+      file: sect8b_harvestw5
+      variable: s8q11                # "Is this [NFE] officially registered with the government?"
+      coding: binary; 1 = YES, 0 = NO
+    non_household_employees:
+      file: sect8b_harvestw5
+      variables: [s8q13a, s8q13b]    # "How many MALE / FEMALE employees work in [NFE] who are not household members?"
+      coding: count; s8q13a + s8q13b, "0. NONE" = 0
+    years_in_operation:
+      file: sect8b_harvestw5
+      variable: s8q4b                # "How many YEARS ago did the [NFE] first start operating?"
+      coding: numeric years; "0. IN THE LAST 12 MONTHS" = 0
+  location:
+    zone:
+      file: secta_harvestw5          # F55
+      variable: zone
+      coding: categorical
+    state:
+      file: secta_harvestw5
+      variable: state
+      coding: categorical
+    urban:
+      file: secta_harvestw5
+      variable: sector               # "Sector (urban/rural)"
+      coding: binary; 1 = URBAN, 0 = RURAL
+  household:
+    any_member_mobile_phone:
+      file: sect5b_plantingw5        # F14
+      variable: s5bq8                # "Does [NAME] have access to a mobile phone?"
+      coding: binary; 1 if any member answers YES
+    any_member_internet:
+      file: sect5b_plantingw5
+      variable: s5bq14               # "Does [NAME] have access to the internet?"
+      coding: binary; 1 if any member answers YES
+    household_internet_connection:
+      file: sect9_harvestw5          # F77
+      variable: s9q48                # "Does HH have a working (fixed or wireless) internet connection?"
+      coding: binary; 1 = YES, 0 = NO
+    any_member_account:
+      file: sect5a1_plantingw5       # F12
+      variable: s5aq2                # "Does [NAME] have a account in any financial institution?"
+      coding: binary; 1 if any member answers YES
+    any_member_formal_savings:
+      file: sect5a1_plantingw5
+      variable: s5aq6                # "Has [NAME] saved or set aside money using any formal or semi-formal institution?"
+      coding: binary; 1 if any member answers YES
+    wall_material:
+      file: sect9_harvestw5
+      variable: s9q9                 # "MAIN CONSTRUCTION MATERIAL OF THE OUTER WALLS OF THE DWELLING"
+      coding: categorical; leading code, codes held by fewer than 1% of operating enterprises merged into 96 (other)
+    roof_material:
+      file: sect9_harvestw5
+      variable: s9q10                # "MAIN CONSTRUCTION MATERIAL OF THE ROOFING OF THE DWELLING"
+      coding: categorical; leading code, codes held by fewer than 1% of operating enterprises merged into 96 (other)
+    floor_material:
+      file: sect9_harvestw5
+      variable: s9q11                # "MAIN CONSTRUCTION MATERIAL OF FLOORING OF THE DWELLING"
+      coding: categorical; leading code, codes held by fewer than 1% of operating enterprises merged into 96 (other)
+    durable_assets:
+      file: sect10_plantingw5        # F25; one row per household and item (item_cd)
+      variables: [item_cd, s10q1a]   # "Does your household own any [ITEM]?"
+      coding: one binary per item_cd (1 = YES), excluding 3341 (Other (Specify)); plus the count of item types owned
+    household_size:
+      file: sect1_harvestw5          # F56
+      variables: [s1q4, NEWMEMBER]   # "Is [NAME] still a member of this household?"; "IS [NAME] A NEW MEMBER ADDED IN THIS INTERVIEW?"
+      coding: count of rows with s1q4 = YES or NEWMEMBER = 1
+  # Second feature set: the features above plus payments to government or non-government local authorities
+  # to allow operation.
+  with_local_payments:
+    local_authority_payments:
+      file: sect8b_harvestw5
+      variable: s8q11b               # see wording above
+      coding: binary; 1 = YES, 0 = NO
+  # Never features: sales (s8q29), profit (s8q30), costs (s8q31a-j), consumption (totcons_final), loan amounts
+  # (s8q17, s8q19) and anything derived from them; durable asset values (s10q6); owner gender (sect1 s1q2) and
+  # owner age (sect1 s1q6), which are used only for error-rate breakdowns.
+  breakdown_only:
+    owner_gender:
+      file: sect1_harvestw5
+      variable: s1q2                 # "What is the sex of [NAME]?"; owner from s8q6_1 linked by hhid and indiv
+    owner_age:
+      file: sect1_harvestw5
+      variable: s1q6                 # "How old is [NAME] (AGE IN COMPLETED YEARS)?"; owner from s8q6_1 linked by hhid and indiv
+      bands: [[15, 24], [25, 34], [35, 44], [45, 54], [55, null]]   # assumption; inclusive, null = no upper bound;
+                                     # under 15, missing age or unlinked owner reported as a separate category
+
+model:
+  holdout_share: 0.20                # assumption; share of PSUs held out as the final test set, stratified by zone
+  split_seed: 20261015               # assumption; fixed seed for the holdout draw and fold assignment
+  cv_folds: 5                        # assumption; GroupKFold by composite PSU on the remaining PSUs
+  training_weight: none              # models trained unweighted; sensitivity: wt_cross_wave5 as sample_weight
+  operating_points:                  # assumption; thresholds chosen on cross-validation folds
+    max_false_flag_rate: 0.10
+    min_precision: 0.50

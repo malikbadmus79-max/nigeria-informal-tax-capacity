@@ -14,33 +14,35 @@ Most Nigerian businesses operate informally. As chairman of the Presidential Com
 
 Widening the tax base depends on two things that are rarely measured: how many informal businesses earn enough to fall above the exemption threshold, and whether a tax authority could identify them from information it can observe. Without that evidence, base-widening efforts risk two errors. They may miss operators who can pay, or they may reach operators the law intends to exempt.
 
-There is a related problem. Informal operators below the federal threshold may already pay levies to local governments. If so, the burden the reform intends to remove persists at the local level, and new federal collection would add to it.
+There is a related problem. Informal operators below the federal threshold may already make payments to government or non-government local authorities to allow operation. If so, operators the reform exempts from personal income tax still make payments at the local level, and new federal collection would add to them.
 
 ## 3. Research question
 
 What share of Nigeria's informal non-farm businesses earn above the personal income tax exemption threshold, where are they concentrated, and how accurately can they be identified from characteristics a tax authority can observe?
 
-Hypothesis: a minority of informal operators earn above the threshold, consistent with the claim that most lack capacity to pay. However, formal registration is a poor guide to who can pay, and a substantial share of operators below the threshold already pay local levies.
+Hypothesis: a minority of informal operators earn above the threshold, consistent with the claim that most lack capacity to pay. However, formal registration is a poor guide to who can pay, and a substantial share of operators below the threshold already make payments to government or non-government local authorities to allow operation.
 
 ## 4. Sub-questions
 
 | # | Sub-question | Method | Output |
 | --- | --- | --- | --- |
 | 1 | What share of informal operators earn above ₦800,000 a year, and how does this vary by state, sector, urban or rural location, and gender of owner? | Weighted descriptive analysis of enterprise profit, annualised and adjusted to 2026 prices | National and state estimates with uncertainty |
-| 2 | How many operators already pay local levies, and how does this compare with their income? | Cross-tabulation of local authority payments against income relative to the threshold | Estimate of levy payment below the threshold |
+| 2 | How many operators already make payments to government or non-government local authorities to allow operation, and how does this compare with their income? | Cross-tabulation of these payments against income relative to the threshold | Estimate of the share making these payments below the threshold |
 | 3 | How accurately can operators above the threshold be identified from observable characteristics? | Supervised classification (logistic regression baseline, gradient boosting), evaluated on held-out data | Recall, precision and false-flag rates; comparison with a registration-only rule |
 | 4 | Which observable characteristics carry most of the predictive signal? | Model interpretation (feature importance, SHAP values) | Ranked list of indicators relevant to presumptive tax design |
 | 5 | How sensitive are the results to the threshold, the price adjustment and the treatment of multi-owner businesses? | Sensitivity analysis | Range of estimates under alternative assumptions |
 
 ## 5. Data
 
-The primary source is the Nigeria General Household Survey Panel, Wave 5 (2023–2024), conducted by the National Bureau of Statistics with World Bank support ([World Bank Microdata Library](https://microdata.worldbank.org/catalog/6410)). It is nationally representative, covering about 5,000 households. Fieldwork took place in July–September 2023 and January–March 2024.
+The primary source is the Nigeria General Household Survey Panel, Wave 5 (2023–2024), conducted by the National Bureau of Statistics with World Bank support ([World Bank Microdata Library](https://microdata.worldbank.org/catalog/6410)). It is nationally representative, covering about 5,000 households. The post-planting visit took place in July–September 2023. The post-harvest visit, which holds the non-farm enterprise module, interviewed households with operating enterprises between February and May 2024 ([audit_month_flags_by_interview.csv](../outputs/tables/audit_month_flags_by_interview.csv)).
 
-The non-farm enterprise module records 3,436 enterprises, with monthly sales, profit and costs, months of operation, registration status, payments to local authorities, premises, industry and employees ([data dictionary](https://microdata.worldbank.org/index.php/catalog/6410/data-dictionary/F74)). Household files add phone and internet use, savings and banking, housing, durable assets and consumption.
+The non-farm enterprise module records 3,436 enterprises, with monthly sales, profit and costs, months of operation, registration status, payments to local authorities, premises, industry and employees. The question on local payments reads: "Did your household make any payments to local authorities (government or non-government) to allow operation of [NON-FARM ENTERPRISE] in past 12 months?" It is recorded as yes or no ([data dictionary](https://microdata.worldbank.org/index.php/catalog/6410/data-dictionary/F74)). Household files add phone and internet use, savings and banking, housing, durable assets and consumption.
 
 Access requires registration and acceptance of the World Bank's terms of use. The raw data is not redistributed in this repository.
 
 ## 6. Preliminary check
+
+Superseded. The pilot figures below used the longitudinal panel weight and a fixed April 2023 to March 2024 window. Both have been replaced: estimates now use the cross-sectional weight and a window ending at each household's interview month. The current design is set out in [analysis_plan.md](analysis_plan.md). The figures are kept as a record of the feasibility check only.
 
 A pilot check of the enterprise module found 3,338 enterprises currently operating. Annualising last month's profit by months operated over April 2023 to March 2024, and before any price adjustment:
 
@@ -63,7 +65,7 @@ Limitations:
 - Profit is recalled for a single month and may be under-reported or seasonal.
 - The threshold applies to a person's total income, while the survey records income by enterprise. Results are tested under alternative allocation rules.
 - Prices have risen since the survey. The Consumer Price Index was rebased in January 2025, so the price adjustment requires care and is reported as a sensitivity range.
-- Payments to local authorities are recorded as a yes or no answer, without amounts or levy type.
+- Payments to government or non-government local authorities to allow operation are recorded as a yes or no answer, without amounts, payee type or legal basis.
 - The model identifies statistical patterns. It does not establish what any individual owes.
 
 ## 8. Policy relevance and audience
@@ -72,7 +74,7 @@ Primary audience: the Federal Ministry of Finance and the Nigeria Revenue Servic
 
 Secondary audiences: the Joint Revenue Board, state internal revenue services, local government councils, and associations representing informal traders and artisans.
 
-Outputs: a working paper, a policy brief, state-level maps of taxable capacity and local levy incidence, and a public GitHub repository with code and derived tables.
+Outputs: a working paper, a policy brief, state-level maps of taxable capacity and of payments to government or non-government local authorities to allow operation, and a public GitHub repository with code and derived tables.
 
 ## Sources
 

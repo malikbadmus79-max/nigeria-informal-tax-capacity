@@ -1,0 +1,11 @@
+sector_group,all,operating
+food_retail,847,820
+food_processing,186,181
+primary_manufacturing_utilities,451,440
+construction,121,121
+other_trade,964,930
+transport,326,318
+accommodation_food_service,233,228
+personal_other_services,269,263
+not_coded,39,37
+unmapped,0,0

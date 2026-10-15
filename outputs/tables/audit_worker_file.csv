@@ -1,0 +1,7 @@
+measure,count
+rows (household member x enterprise),3814
+enterprises with at least one row,3435
+enterprises in sect8b with no row,1
+rows whose enterprise is not in sect8b,0
+"owner slots (s8q6_1, s8q6_2) filled",3558
+owner slots with no matching sect8c row,129

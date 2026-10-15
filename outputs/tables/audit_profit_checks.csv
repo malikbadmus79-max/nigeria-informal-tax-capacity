@@ -1,0 +1,7 @@
+check,population,count
+profit < 0,all,16
+profit > sales,all,0
+profit > 0 and sales = 0,all,0
+profit < 0,operating,15
+profit > sales,operating,0
+profit > 0 and sales = 0,operating,0

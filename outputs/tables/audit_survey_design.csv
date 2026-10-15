@@ -1,0 +1,36 @@
+item,measure,count
+enterprises,total,3436
+enterprises,household found in cover file,3436
+enterprises,household not in cover file,0
+enterprises,with positive wt_cross_wave5,3436
+enterprises,wt_cross_wave5 missing or non-positive,0
+enterprises,"operating, with positive wt_cross_wave5",3338
+enterprises,"operating, wt_cross_wave5 missing or non-positive",0
+enterprises,PSU (state x lga x ea) differs between enterprise and cover file,0
+households with enterprises,total,2673
+households with enterprises,wt_cross_wave5 missing or non-positive,0
+operating enterprises by weight variable,wt_wave5 missing or non-positive,22
+operating enterprises by weight variable,wt_longpanel_wave5 missing or non-positive,2429
+operating enterprises by weight variable,wt_cross_wave5 missing or non-positive,0
+cover file,households,4771
+cover file,households with wt_cross_wave5 missing,56
+cover file,strata (strata),6
+cover file,PSU (state x lga x ea),727
+enterprises with positive weight,strata (strata) represented,6
+enterprises with positive weight,PSU (state x lga x ea) represented,654
+enterprises with positive weight,min PSU (state x lga x ea) per stratum,98
+enterprises with positive weight,PSU (state x lga x ea) spanning more than one stratum,12
+operating enterprises with positive weight,strata (strata) represented,6
+operating enterprises with positive weight,PSU (state x lga x ea) represented,651
+operating enterprises with positive weight,min PSU (state x lga x ea) per stratum,98
+operating enterprises with positive weight,PSU (state x lga x ea) spanning more than one stratum,11
+PSU candidate PSU (state x lga x ea),distinct codes,727
+PSU candidate PSU (state x lga x ea),codes found in more than one state,0
+PSU candidate PSU (state x lga x ea),codes spanning more than one stratum (strata),25
+PSU candidate ea alone,distinct codes,398
+PSU candidate ea alone,codes found in more than one state,91
+PSU candidate ea alone,codes spanning more than one stratum (strata),84
+PSU candidate cluster (cover file),distinct codes,725
+PSU candidate cluster (cover file),codes found in more than one state,2
+PSU candidate cluster (cover file),codes spanning more than one stratum (strata),25
+cover file,households whose strata differs from zone code,54

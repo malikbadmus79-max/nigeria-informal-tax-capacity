@@ -1,0 +1,15 @@
+item,category,all,operating
+"owners listed (s8q6_1, s8q6_2)",0 owner(s),0,0
+"owners listed (s8q6_1, s8q6_2)",1 owner(s),3314,3217
+"owners listed (s8q6_1, s8q6_2)",2 owner(s),122,121
+"owners listed (s8q6_1, s8q6_2)",same person in both slots,0,0
+households by enterprises operated,1 enterprise(s),2054,2000
+households by enterprises operated,2 enterprise(s),506,487
+households by enterprises operated,3 enterprise(s),87,85
+households by enterprises operated,4 enterprise(s),22,22
+households by enterprises operated,5 enterprise(s),3,3
+households by enterprises operated,6 enterprise(s),1,1
+households by enterprises operated,more than one,619,598
+persons listed as owner,total,3501,3406
+persons listed as owner,owning more than one enterprise,54,51
+enterprises,in a household operating more than one enterprise,1382,1359
