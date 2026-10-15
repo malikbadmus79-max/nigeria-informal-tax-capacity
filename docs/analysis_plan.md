@@ -6,13 +6,13 @@ This plan fixes the analytical decisions for the research question in [problem_s
 
 ## 1. Data and survey design
 
-Source: Nigeria General Household Survey Panel, Wave 5, post-harvest visit. Files: `sect8b_harvestw5` (enterprises), `sect8c_harvestw5` (enterprise workers) and `secta_harvestw5` (cover page), read through `src/taxcap/load.py`.
+Source: Nigeria General Household Survey Panel, Wave 5, post-harvest visit (T05, T06). Sources cited by ID (T01, T02, and so on) are listed in [sources.md](sources.md). Files: `sect8b_harvestw5` (enterprises), `sect8c_harvestw5` (enterprise workers) and `secta_harvestw5` (cover page), read through `src/taxcap/load.py`.
 
 The enterprise file holds 3,436 enterprises in 2,673 households. Every enterprise links to a household in the cover file (`audit_survey_design.csv`).
 
 ### 1.1 Weight
 
-Estimates use the cross-sectional household weight `wt_cross_wave5`, as the World Bank study description recommends for cross-sectional estimates. Each enterprise carries the weight of its household.
+Estimates use the cross-sectional household weight `wt_cross_wave5`, as the World Bank study description recommends for cross-sectional estimates (T05). Each enterprise carries the weight of its household.
 
 `wt_cross_wave5` is positive for all 3,436 enterprises, including all 3,338 operating enterprises. The alternatives cover fewer operating enterprises: `wt_wave5` is missing or non-positive for 22 and `wt_longpanel_wave5` for 2,429 (`audit_survey_design.csv`).
 
@@ -44,13 +44,13 @@ Annual enterprise income is monthly profit (`s8q30`) multiplied by the number of
 
 ### 3.2 Months operated
 
-Months operated come from the `s8q9` flags. The questionnaire asks: "In which months did you operate this [NON-FARM ENTERPRISE] in the past 12 months?"
+Months operated come from the `s8q9` flags. The questionnaire asks: "In which months did you operate this [NON-FARM ENTERPRISE] in the past 12 months?" (T07)
 
 The month of each flag is set by `month_flag_origin` in the configuration, with `s8q9__1` as January 2023. Printed codes run from JANUARY 2023 = 01 to FEBRUARY 2024 = 14.
 
-The data also hold flags `s8q9__0`, `s8q9__15` and `s8q9__16`, which are not printed in the questionnaire. Flags 15 and 16 are assumed to continue the sequence as March 2024 and April 2024. This is an assumption. The World Bank data dictionary for the file (catalog 6410, F74) gives the same labels, MARCH 2024 and APRIL 2024.
+The data also hold flags `s8q9__0`, `s8q9__15` and `s8q9__16`, which are not printed in the questionnaire. Flags 15 and 16 are assumed to continue the sequence as March 2024 and April 2024. This is an assumption. The World Bank data dictionary for the file (catalog 6410, F74; T06) gives the same labels, MARCH 2024 and APRIL 2024.
 
-The data dictionary labels `s8q9__0` "ALL 12 MONTHS". No operating enterprise flags it, so it does not enter the count.
+The data dictionary labels `s8q9__0` "ALL 12 MONTHS" (T06). No operating enterprise flags it, so it does not enter the count.
 
 The interview month comes from `InterviewStart` in `secta_harvestw5`, a text field of the form `YYYY-MM-DDTHH:MM:SS`. The window ends at the interview month or at April 2024 (`s8q9__16`, the last month with a flag column), whichever is earlier. It covers that month and the 11 before it, so it differs by household. The cap is set by `annualisation.last_month_flag`.
 
@@ -102,15 +102,52 @@ Three alternative income measures are run:
 
 ## 4. Price adjustment
 
-Results are reported in nominal 2023–2024 naira and also adjusted to 2026 prices.
+### 4.1 Method
 
-The CPI source for the 2026 adjustment is still open. The Consumer Price Index was rebased in January 2025, and the method for linking the old and new series across the rebase is also open. Both are to be documented in `docs/sources.md` and entered in `price_adjustment` in the configuration before any adjusted figure is produced. Until then, `price_adjustment.method` is `none` and only nominal results are produced.
+Income is adjusted from August 2023 prices to August 2026 prices by chaining three National Bureau of Statistics (NBS) headline year-on-year inflation rates:
+
+cpi_ratio = (1 + rate for August 2024) × (1 + rate for August 2025) × (1 + rate for August 2026)
+
+Each rate is the change in the headline index over the 12 months to that August. The product is therefore the change in the price level from August 2023 to August 2026.
+
+The Consumer Price Index was rebased in January 2025. Chaining published year-on-year rates avoids linking index levels from the old and new bases.
+
+The reference month is August 2023. It is the midpoint of the 12-month income window for most enterprises: 2,880 of 3,338 operating enterprises were interviewed in February 2024, with a window from March 2023 to February 2024 (`audit_month_flags_by_interview.csv`). The target month is August 2026, the latest release as of 15 October 2026.
+
+One national ratio is applied to all enterprises. It does not vary by state, urban or rural location, or interview month. For the 458 enterprises interviewed in March to May 2024, the midpoint of the window falls one to two months after August 2023.
+
+Adjusted income is nominal income multiplied by the ratio. Equivalently, the ₦800,000 threshold corresponds to ₦426,053 in August 2023 prices.
+
+### 4.2 Rates
+
+| Rate | Value | Sources |
+| --- | --- | --- |
+| August 2024 | 32.15% | T08, T09 |
+| August 2025 | 23.14% | T10, T11, T12; revision documented in T13 |
+| August 2026 | 15.39% | T10, T11, T12 |
+| cpi_ratio | 1.8777 | Computed: 1.3215 × 1.2314 × 1.1539 |
+
+The rates and the ratio are held in `price_adjustment` in the configuration.
+
+August 2025 has two published values. The NBS first published 20.12% in September 2025 (T15, T16). In December 2025, the NBS changed the CPI reference period to the 2024 average and revised its January to November 2025 year-on-year rates. This revision raised August 2025 to 23.14% (T13, T14). The August 2026 release compares with 23.14% (T10, T11, T12), and this revised value is used.
+
+As a sensitivity, the originally published 20.12% is used instead, which gives a ratio of 1.8317 (`price_adjustment.sensitivities`).
+
+A second sensitivity moves the reference month to September 2023, chaining the September 2024, 2025 and 2026 rates. It is pending: the September 2026 rate had not been released as of 15 October 2026.
+
+### 4.3 Interpretation
+
+Nominal results assume no growth in nominal income since the survey. They are a lower bound.
+
+CPI-adjusted results assume that real incomes have held constant since the survey. They are an upper bound under that assumption.
+
+Every headline share is reported as a range from the nominal to the CPI-adjusted value.
 
 ## 5. Threshold and unit of analysis
 
 ### 5.1 Threshold
 
-The threshold is annual income above ₦800,000, the personal income tax exemption level under the Nigeria Tax Act 2025 (`tax_rules.pit_exemption_naira`).
+The threshold is annual income above ₦800,000, the personal income tax exemption level under the Nigeria Tax Act 2025 (T01; `tax_rules.pit_exemption_naira`).
 
 ### 5.2 Unit
 
@@ -164,7 +201,7 @@ The mapping is held in `sector_groups` in the configuration and applied by `taxc
 
 ## 9. Local authority payments and registration
 
-`s8q11b` is described in all outputs as "payments to government or non-government local authorities to allow operation". It is not described as tax, since the question does not identify the payee type, the amount or the legal basis. The question wording is recorded in `config/assumptions.yaml`:
+`s8q11b` is described in all outputs as "payments to government or non-government local authorities to allow operation". It is not described as tax, since the question does not identify the payee type, the amount or the legal basis. The question wording (T07) is recorded in `config/assumptions.yaml`:
 
 > "Did your household make any payments to local authorities (government or non-government) to allow operation of [NON-FARM ENTERPRISE] in past 12 months?"
 
@@ -179,11 +216,11 @@ The mapping is held in `sector_groups` in the configuration and applied by `taxc
 
 ### 10.1 Target
 
-The model target is a binary indicator: the enterprise's annual income (section 3) is above ₦800,000. Income is in 2026 prices once the CPI adjustment in section 4 is sourced, and nominal until then. The target uses the primary population and income measure. The 49 enterprises excluded in section 3.3 are not modelled.
+The model target is a binary indicator: the enterprise's annual income (section 3) is above ₦800,000. Income is in August 2026 prices (section 4). The target uses the primary population and income measure. The 49 enterprises excluded in section 3.3 are not modelled.
 
 ### 10.2 Allowed features
 
-Features are limited to characteristics a tax authority could observe. The full list is in `features` in `config/assumptions.yaml`. For each feature it gives the source file, the variable and how the variable is coded. Variable names and labels follow the World Bank data dictionary for catalog 6410. The list was fixed on 15 October 2026, before any holdout split.
+Features are limited to characteristics a tax authority could observe. The full list is in `features` in `config/assumptions.yaml`. For each feature it gives the source file, the variable and how the variable is coded. Variable names and labels follow the World Bank data dictionary for catalog 6410 (T06). The list was fixed on 15 October 2026, before any holdout split.
 
 | Feature | File | Variable |
 | --- | --- | --- |
@@ -279,5 +316,6 @@ The changes below were made before any income estimate or model result existed. 
 | 2026-10-15 | Annualisation window changed from a fixed April 2023 to March 2024 window to the 12 months ending at the interview month. The fixed window is kept as a sensitivity. | No household flags months after its interview month, so the fixed window undercounts months for households interviewed before March 2024 (section 3.2). |
 | 2026-10-15 | Window end capped at April 2024 (`s8q9__16`). Previously, May 2024 was counted as not operated for May interviews. | May 2024 has no flag column. Counting it as not operated limited the 85 May 2024 interviews to at most 11 months. |
 | 2026-10-15 | Feature variables named from the World Bank data dictionary. Owner gender and age restricted to error-rate breakdowns. Training weights, holdout share, folds, seed, winsorisation percentile, threshold band, operating points and sector mapping entered in the configuration. | All fixed before any split or model fit. |
+| 2026-10-15 | Price adjustment set: chained NBS headline year-on-year rates for August 2024, 2025 and 2026, cpi_ratio 1.8777 from August 2023 to August 2026 prices. The revised August 2025 rate is used, with the originally published rate as a sensitivity. Results reported as a range from nominal to CPI-adjusted. Replaces the open item in section 4. | Made before any income estimate. Chaining year-on-year rates avoids linking index levels across the January 2025 rebase (section 4). |
 
 No deviations after test results have been recorded.

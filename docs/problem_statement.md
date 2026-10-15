@@ -4,11 +4,11 @@ As of 10 October 2026
 
 ## 1. Context
 
-Nigeria's four tax reform laws took effect on 1 January 2026. Under the Nigeria Tax Act, annual personal incomes of ₦800,000 or less are exempt from personal income tax, and rates above that level rise progressively from 7% to 25%. Small companies with turnover under ₦100 million and assets below ₦250 million are exempt from company income tax. Where a taxpayer keeps no records, a presumptive tax applies, at rates set by the Minister of Finance ([Guardian](https://guardian.ng/news/explainer-who-will-pay-under-nigerias-new-tax-laws/)).
+Nigeria's four tax reform laws took effect on 1 January 2026. Under the Nigeria Tax Act, annual personal incomes of ₦800,000 or less are exempt from personal income tax, and rates above that level rise progressively from 7% to 25%. Small companies with turnover under ₦100 million and assets below ₦250 million are exempt from company income tax. Where a taxpayer keeps no records, a presumptive tax applies, at rates set by the Minister of Finance ([T01](sources.md)).
 
-The Minister of Finance, Taiwo Oyedele, has said that the government's priority is to widen the tax base rather than raise rates: "It is not about increasing taxes but making sure that those who are supposed to pay taxes" do so ([Pulse, 26 June 2026](https://www.pulse.ng/story/nigeria-needs-more-taxpayers-not-higher-taxes-says-finance-minister-taiwo-oyedele-2026062614344076206)). He has also said that Nigeria cannot continue to finance development primarily through borrowing ([Veegil Media, 13 May 2026](https://media.veegil.com/nigeria-cannot-depend-on-borrowing-for-development-oyedele/)).
+The Minister of Finance, Taiwo Oyedele, has said that the government's priority is to widen the tax base rather than raise rates: "It is not about increasing taxes but making sure that those who are supposed to pay taxes" do so ([T02](sources.md)). He has also said that Nigeria cannot continue to finance development primarily through borrowing ([T03](sources.md)).
 
-Most Nigerian businesses operate informally. As chairman of the Presidential Committee on Fiscal Policy and Tax Reforms, Oyedele stated that over 90% of informal sector operators lack the capacity to pay tax ([Channels Television, 4 October 2025](https://www.channelstv.com/2025/10/04/over-90-informal-sector-operators-have-no-capacity-to-pay-tax-oyedele/)). He has also identified multiple taxation and fragmented state tax administration as burdens on businesses ([Veegil Media, 13 May 2026](https://media.veegil.com/nigeria-cannot-depend-on-borrowing-for-development-oyedele/)).
+Most Nigerian businesses operate informally. As chairman of the Presidential Committee on Fiscal Policy and Tax Reforms, Oyedele stated that over 90% of informal sector operators lack the capacity to pay tax ([T04](sources.md)). He has also identified multiple taxation and fragmented state tax administration as burdens on businesses ([T03](sources.md)).
 
 ## 2. Problem
 
@@ -34,9 +34,9 @@ Hypothesis: a minority of informal operators earn above the threshold, consisten
 
 ## 5. Data
 
-The primary source is the Nigeria General Household Survey Panel, Wave 5 (2023–2024), conducted by the National Bureau of Statistics with World Bank support ([World Bank Microdata Library](https://microdata.worldbank.org/catalog/6410)). It is nationally representative, covering about 5,000 households. The post-planting visit took place in July–September 2023. The post-harvest visit, which holds the non-farm enterprise module, interviewed households with operating enterprises between February and May 2024 ([audit_month_flags_by_interview.csv](../outputs/tables/audit_month_flags_by_interview.csv)).
+The primary source is the Nigeria General Household Survey Panel, Wave 5 (2023–2024), conducted by the National Bureau of Statistics with World Bank support ([T05](sources.md)). It is nationally representative, covering about 5,000 households. The post-planting visit took place in July–September 2023 ([T05](sources.md)). The post-harvest visit, which holds the non-farm enterprise module, interviewed households with operating enterprises between February and May 2024 ([audit_month_flags_by_interview.csv](../outputs/tables/audit_month_flags_by_interview.csv)).
 
-The non-farm enterprise module records 3,436 enterprises, with monthly sales, profit and costs, months of operation, registration status, payments to local authorities, premises, industry and employees. The question on local payments reads: "Did your household make any payments to local authorities (government or non-government) to allow operation of [NON-FARM ENTERPRISE] in past 12 months?" It is recorded as yes or no ([data dictionary](https://microdata.worldbank.org/index.php/catalog/6410/data-dictionary/F74)). Household files add phone and internet use, savings and banking, housing, durable assets and consumption.
+The non-farm enterprise module records 3,436 enterprises, with monthly sales, profit and costs, months of operation, registration status, payments to local authorities, premises, industry and employees. The question on local payments reads: "Did your household make any payments to local authorities (government or non-government) to allow operation of [NON-FARM ENTERPRISE] in past 12 months?" It is recorded as yes or no ([T06](sources.md), [T07](sources.md)). Household files add phone and internet use, savings and banking, housing, durable assets and consumption.
 
 Access requires registration and acceptance of the World Bank's terms of use. The raw data is not redistributed in this repository.
 
@@ -64,7 +64,7 @@ Limitations:
 
 - Profit is recalled for a single month and may be under-reported or seasonal.
 - The threshold applies to a person's total income, while the survey records income by enterprise. Results are tested under alternative allocation rules.
-- Prices have risen since the survey. The Consumer Price Index was rebased in January 2025, so the price adjustment requires care and is reported as a sensitivity range.
+- Prices have risen since the survey. The Consumer Price Index was rebased in January 2025, so the price adjustment chains published year-on-year inflation rates rather than linking index levels, and results are reported as a range between nominal and adjusted values ([analysis_plan.md](analysis_plan.md), section 4).
 - Payments to government or non-government local authorities to allow operation are recorded as a yes or no answer, without amounts, payee type or legal basis.
 - The model identifies statistical patterns. It does not establish what any individual owes.
 
@@ -78,9 +78,4 @@ Outputs: a working paper, a policy brief, state-level maps of taxable capacity a
 
 ## Sources
 
-- [Guardian: Explainer: Who will pay under Nigeria's new tax laws](https://guardian.ng/news/explainer-who-will-pay-under-nigerias-new-tax-laws/)
-- [Pulse: Nigeria needs more taxpayers, not higher taxes, says Finance Minister Taiwo Oyedele (26 Jun 2026)](https://www.pulse.ng/story/nigeria-needs-more-taxpayers-not-higher-taxes-says-finance-minister-taiwo-oyedele-2026062614344076206)
-- [Veegil Media: Nigeria cannot depend on borrowing for development — Oyedele (13 May 2026)](https://media.veegil.com/nigeria-cannot-depend-on-borrowing-for-development-oyedele/)
-- [Channels Television: Over 90% of informal sector operators lack capacity to pay tax — Oyedele (4 Oct 2025)](https://www.channelstv.com/2025/10/04/over-90-informal-sector-operators-have-no-capacity-to-pay-tax-oyedele/)
-- [World Bank Microdata Library: Nigeria General Household Survey, Panel 2023–2024, Wave 5](https://microdata.worldbank.org/catalog/6410)
-- [Data dictionary: Non-farm enterprises (sect8b_harvestw5)](https://microdata.worldbank.org/index.php/catalog/6410/data-dictionary/F74)
+Sources are listed with full references in [sources.md](sources.md) and cited here by ID (T01 to T07).

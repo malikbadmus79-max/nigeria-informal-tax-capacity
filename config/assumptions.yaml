@@ -5,7 +5,7 @@ data:
   zip_path: data_raw/NGA_2023_GHSP-W5_v02_M_CSV.zip   # World Bank Microdata Library, catalog 6410
 
 tax_rules:
-  pit_exemption_naira: 800000        # Nigeria Tax Act 2025; annual income at or below this is exempt (Guardian explainer, 2025)
+  pit_exemption_naira: 800000        # Nigeria Tax Act 2025; annual income at or below this is exempt (T01)
   pit_effective_date: 2026-01-01
 
 annualisation:
@@ -27,9 +27,27 @@ annualisation:
     last_month_flag: 15                    # s8q9__15 = March 2024 (assumed, see above)
   unprinted_flags_sensitivity: [15, 16]    # sensitivity: treated as missing; months counted over printed window months, scaled to 12
 
+# Source IDs (T##) refer to docs/sources.md.
 price_adjustment:
-  method: none                       # placeholder until CPI series is sourced; options: none, cpi_ratio
-  cpi_ratio: null                    # 2026 price level divided by survey-period price level; to be sourced (CPI rebased Jan 2025)
+  # Chained NBS headline year-on-year inflation rates; avoids linking index levels across the January 2025 rebase.
+  # cpi_ratio = (1 + yoy Aug 2024) x (1 + yoy Aug 2025) x (1 + yoy Aug 2026) = August 2026 / August 2023 price level.
+  method: cpi_ratio                  # options: none, cpi_ratio; nominal results are always reported alongside
+  reference_month: "2023-08"         # assumption; midpoint of the income window for February 2024 interviews (2,880 of
+                                     # 3,338 operating enterprises; outputs/tables/audit_month_flags_by_interview.csv)
+  target_month: "2026-08"            # latest NBS release as of 2026-10-15
+  yoy_rates:
+    "2024-08": {rate: 0.3215, sources: [T08, T09]}
+    "2025-08": {rate: 0.2314, sources: [T10, T11, T12, T13]}   # as revised by NBS in December 2025 (T13, T14)
+    "2026-08": {rate: 0.1539, sources: [T10, T11, T12]}
+  cpi_ratio: 1.8777                  # 1.3215 x 1.2314 x 1.1539 = 1.877736
+  sensitivities:
+    unrevised_aug_2025:              # August 2025 as first published, before the December 2025 revision
+      yoy_2025_08: {rate: 0.2012, sources: [T15, T16]}
+      cpi_ratio: 1.8317              # 1.3215 x 1.2012 x 1.1539 = 1.831684
+    reference_month_2023_09:         # pending: September 2026 rate not released as of 2026-10-15
+      status: pending
+      reference_month: "2023-09"
+      target_month: "2026-09"
 
 income_allocation:
   rule: enterprise                   # enterprise | owner_sum ; owner_sum adds all enterprise profit per owner
